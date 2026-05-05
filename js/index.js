@@ -72,7 +72,7 @@ if (contactForm) {
 
         try {
             // Cambia '/api/send-email' por la URL real de tu servidor o función serverless
-            const response = await fetch('/api/send-email.js', {
+           const response = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
