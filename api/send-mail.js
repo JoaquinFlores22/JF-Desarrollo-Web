@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     service: 'gmail',
     auth: {
       user: 'joaquinflores2207@gmail.com',
-      pass: 'pjzp mfxl usmg bqil' // La contraseña de aplicación que generaste
+      pass: 'process.env.EMAIL_PASS' 
     }
   });
 
