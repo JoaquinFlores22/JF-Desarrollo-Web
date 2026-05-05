@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     service: 'gmail',
     auth: {
       user: 'joaquinflores2207@gmail.com',
-      pass: 'process.env.EMAIL_PASS' 
+      pass: 'process.env.EMAIL_PASS'
     }
   });
 
