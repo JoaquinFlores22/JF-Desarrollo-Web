@@ -72,13 +72,13 @@ if (contactForm) {
 
         try {
             // Cambia '/api/send-email' por la URL real de tu servidor o función serverless
-           const response = await fetch('/api/send-email.js', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+                const response = await fetch('/api/send-email', { 
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
 
             if (response.ok) {
                 console.log("Servidor respondió con éxito");
