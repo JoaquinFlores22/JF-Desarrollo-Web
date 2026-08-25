@@ -1,6 +1,6 @@
 if (window.top !== window.self) window.top.location = window.location.href;
 
-const WHATSAPP_NUMBER = '5490000000000';
+const WHATSAPP_NUMBER = '541130621946';
 
 const products = [
   { name: 'Pantalón Cargo Relax', type: 'pantalon', price: 32000, color: 'Arena', image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=85', note: 'Calce amplio', sizes: 'S · M · L · XL', stock: 'Disponible' },
@@ -150,6 +150,25 @@ document.querySelectorAll('[data-whatsapp]').forEach(link => {
   link.target = '_blank';
   link.rel = 'noopener';
 });
+
+const contactPhone = document.querySelector('.contact-card .placeholder');
+if (contactPhone) contactPhone.textContent = '+54 11 3062-1946';
+const threadsLink = document.querySelector('.contact-detail a[href="#"]');
+if (threadsLink) {
+  threadsLink.href = 'https://www.threads.com/@jcl.pantalones';
+  threadsLink.target = '_blank';
+  threadsLink.rel = 'noopener';
+}
+const footerLinks = document.querySelector('.footer-links');
+if (footerLinks && !footerLinks.querySelector('[data-instagram-link]')) {
+  const instagramLink = document.createElement('a');
+  instagramLink.dataset.instagramLink = 'true';
+  instagramLink.href = 'https://www.instagram.com/jcl.pantalones/';
+  instagramLink.target = '_blank';
+  instagramLink.rel = 'noopener';
+  instagramLink.textContent = 'Instagram';
+  footerLinks.appendChild(instagramLink);
+}
 
 const quantity = document.querySelector('#quantity');
 const unitPrice = document.querySelector('[data-unit-price]');
