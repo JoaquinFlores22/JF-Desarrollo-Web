@@ -1,5 +1,13 @@
 if (window.top !== window.self) window.top.location = window.location.href;
 
+// localStorage puede lanzar excepción (modo privado, storage bloqueado, cookies de terceros
+// deshabilitadas). Sin este wrapper, un solo throw acá arriba frena TODO el script: menú,
+// links de WhatsApp, filtros, etc. dejarían de funcionar en esos navegadores.
+const storage = {
+  get(key, fallback = null) { try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; } },
+  set(key, value) { try { localStorage.setItem(key, value); } catch { /* almacenamiento no disponible, seguimos sin persistir */ } }
+};
+
 const WHATSAPP_NUMBER = '541130621946';
 
 const products = [
@@ -12,7 +20,7 @@ const products = [
 ];
 
 const money = value => `$ ${value.toLocaleString('es-AR')}`;
-const productCard = product => `<article class="product-card"><a class="product-image" href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola, JCL. Me interesa el ${product.name}. ¿Qué talles y colores tienen disponibles?`)}"><img src="${product.image}" alt="${product.name}, color ${product.color}" loading="lazy"><span class="product-note">${product.note}</span><span class="product-arrow">↗</span></a><div class="product-info"><div><h3>${product.name}</h3><p>${product.color} · Unisex</p></div><strong>${money(product.price)}</strong></div><div class="product-actions"><span class="stock-status">${product.stock}</span><button class="size-toggle" type="button">Guía de talle <span>+</span></button><button class="add-order" type="button" data-product="${product.name}">Agregar al pedido</button><div class="size-panel"><small>Elegí un talle para tu pedido</small><div class="size-options">${product.sizes.split(' · ').map(size => `<button class="size-option" type="button" data-size="${size}">${size}</button>`).join('')}</div></div></div></article>`;
+const productCard = product => `<article class="product-card"><a class="product-image" href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola, JCL. Me interesa el ${product.name}. ¿Qué talles y colores tienen disponibles?`)}"><img src="${product.image}" alt="${product.name}, color ${product.color}" loading="lazy"><span class="product-note">${product.note}</span><span class="product-arrow">↗</span></a><div class="product-info"><div><h3>${product.name}</h3><p>${product.color} · Unisex</p></div><strong>${money(product.price)}</strong></div><div class="product-actions"><span class="stock-status">${product.stock}</span><button class="size-toggle" type="button">Guía de talle <span>+</span></button><button class="add-order" type="button" data-product="${product.name}">Agregar al pedido</button><div class="size-panel"><small>Elegí un talle para tu pedido</small><div class="size-options">${product.sizes.split(' · ').map(size => `<button class="size-option" type="button" data-size="${size}" aria-pressed="false">${size}</button>`).join('')}</div></div></div></article>`;
 
 const catalog = document.querySelector('[data-catalog]');
 const featured = document.querySelector('[data-featured]');
@@ -20,40 +28,55 @@ const count = document.querySelector('[data-count]');
 let currentFilter = new URLSearchParams(window.location.search).get('tipo') || 'todos';
 let searchTerm = '';
 
+const emptyState = '<div class="catalog-empty"><p>No encontramos modelos con ese criterio.</p><button type="button" class="text-link" data-reset-catalog>Ver todo el catálogo <span>→</span></button></div>';
+
 function renderCatalog(filter = 'todos') {
   if (!catalog) return;
   currentFilter = filter;
   const visible = products.filter(product => (filter === 'todos' || product.type === filter) && `${product.name} ${product.color}`.toLowerCase().includes(searchTerm));
-  catalog.innerHTML = visible.map(productCard).join('');
+  catalog.innerHTML = visible.length ? visible.map(productCard).join('') : emptyState;
   if (count) count.textContent = `${visible.length} modelos`;
 }
 
 if (featured) featured.innerHTML = products.slice(0, 3).map(productCard).join('');
 renderCatalog(currentFilter);
+// El filtro puede llegar por URL (?tipo=short desde el inicio): la pestaña activa tiene que
+// reflejar eso, no quedarse siempre en "Todo" aunque se esté mostrando otra cosa.
+document.querySelectorAll('[data-filter]').forEach(button => {
+  const isCurrent = button.dataset.filter === currentFilter;
+  button.classList.toggle('active', isCurrent);
+  button.setAttribute('aria-pressed', String(isCurrent));
+});
 
 if (catalog) {
   const catalogTools = document.createElement('div');
   catalogTools.className = 'catalog-tools';
-  catalogTools.innerHTML = '<div class="mode-switch" data-mode-switch><span>Estoy comprando para:</span><button class="mode active" data-mode="minorista" type="button">Mí</button><button class="mode" data-mode="mayorista" type="button">Revender</button></div><label class="search-box"><span>⌕</span><input type="search" placeholder="Buscar modelo o color" aria-label="Buscar modelo o color"></label><details class="size-guide"><summary>Guía rápida de talles</summary><p>Medidas orientativas. El calce puede variar según el modelo; confirmamos cintura y largo por WhatsApp.</p><div><span><b>S</b> cintura 70–78 cm</span><span><b>M</b> cintura 78–86 cm</span><span><b>L</b> cintura 86–94 cm</span><span><b>XL</b> cintura 94–102 cm</span></div></details></div>';
+  catalogTools.innerHTML = '<div class="mode-switch" data-mode-switch><span>Estoy comprando para:</span><button class="mode active" data-mode="minorista" type="button" aria-pressed="true">Mí</button><button class="mode" data-mode="mayorista" type="button" aria-pressed="false">Revender</button></div><label class="search-box"><span>⌕</span><input type="search" placeholder="Buscar modelo o color" aria-label="Buscar modelo o color"></label><details class="size-guide"><summary>Guía rápida de talles</summary><p>Medidas orientativas. El calce puede variar según el modelo; confirmamos cintura y largo por WhatsApp.</p><div><span><b>S</b> cintura 70–78 cm</span><span><b>M</b> cintura 78–86 cm</span><span><b>L</b> cintura 86–94 cm</span><span><b>XL</b> cintura 94–102 cm</span></div></details></div>';
   document.querySelector('.filter-bar').after(catalogTools);
   catalogTools.querySelector('input').addEventListener('input', event => { searchTerm = event.target.value.toLowerCase().trim(); renderCatalog(currentFilter); });
-  catalogTools.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => { catalogTools.querySelectorAll('[data-mode]').forEach(item => item.classList.remove('active')); button.classList.add('active'); localStorage.setItem('jcl-mode', button.dataset.mode); }));
-  const savedMode = localStorage.getItem('jcl-mode');
-  if (savedMode) catalogTools.querySelectorAll('[data-mode]').forEach(button => button.classList.toggle('active', button.dataset.mode === savedMode));
+  catalogTools.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => {
+    catalogTools.querySelectorAll('[data-mode]').forEach(item => { item.classList.remove('active'); item.setAttribute('aria-pressed', 'false'); });
+    button.classList.add('active');
+    button.setAttribute('aria-pressed', 'true');
+    storage.set('jcl-mode', button.dataset.mode);
+  }));
+  const savedMode = storage.get('jcl-mode');
+  if (savedMode) catalogTools.querySelectorAll('[data-mode]').forEach(button => {
+    const isSaved = button.dataset.mode === savedMode;
+    button.classList.toggle('active', isSaved);
+    button.setAttribute('aria-pressed', String(isSaved));
+  });
 }
 
-const selectedOrder = JSON.parse(localStorage.getItem('jcl-order') || '[]').map(item => ({ ...item, quantity: item.quantity || 1 }));
+let selectedOrder = [];
+try { selectedOrder = JSON.parse(storage.get('jcl-order', '[]')).map(item => ({ ...item, quantity: item.quantity || 1 })); } catch { /* datos guardados corruptos: seguimos con el pedido vacío */ }
 const orderDock = document.createElement('aside');
 orderDock.className = 'order-dock';
+orderDock.setAttribute('role', 'region');
+orderDock.setAttribute('aria-label', 'Tu pedido');
+orderDock.setAttribute('aria-live', 'polite');
 orderDock.innerHTML = '<div class="order-summary"><span><b data-order-count>0</b> prendas en tu pedido · <b data-order-total>$ 0</b></span><button class="clear-order" type="button">Vaciar pedido</button><div class="order-list" data-order-list></div></div><a class="button button-terracotta" data-order-link href="#">Ver pedido en WhatsApp <span>↗</span></a>';
-document.body.appendChild(orderDock);
-
-const headerCart = document.createElement('a');
-headerCart.className = 'header-cart';
-headerCart.href = '#';
-headerCart.innerHTML = 'Pedido <b data-header-count>0</b>';
-headerCart.addEventListener('click', event => { event.preventDefault(); orderDock.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
-document.querySelector('.header-cta')?.before(headerCart);
+if (catalog) document.body.appendChild(orderDock);
 
 function updateOrder() {
   const countElement = orderDock.querySelector('[data-order-count]');
@@ -62,21 +85,33 @@ function updateOrder() {
   const orderTotal = selectedOrder.reduce((total, item) => total + item.price * item.quantity, 0);
   const summary = selectedOrder.map(item => `- ${item.name} (${item.color}, talle ${item.size}) x${item.quantity}`).join('\n');
   countElement.textContent = itemCount;
-  headerCart.querySelector('[data-header-count]').textContent = itemCount;
   orderDock.querySelector('[data-order-total]').textContent = money(orderTotal);
   orderDock.querySelector('[data-order-list]').innerHTML = selectedOrder.map((item, index) => `<div class="order-line"><span>${item.name} · ${item.size} <b>x${item.quantity}</b></span><button class="remove-one" type="button" data-order-index="${index}" aria-label="Quitar una unidad de ${item.name}">−1</button><button class="remove-line" type="button" data-order-index="${index}" aria-label="Eliminar ${item.name}">×</button></div>`).join('');
   link.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola, JCL. Quiero consultar este pedido:\n${summary}\n\n¿Me confirman talles, stock y precio final?`)}`;
   orderDock.classList.toggle('has-items', itemCount > 0);
-  localStorage.setItem('jcl-order', JSON.stringify(selectedOrder));
+  storage.set('jcl-order', JSON.stringify(selectedOrder));
 }
 
 document.addEventListener('click', event => {
   const sizeOption = event.target.closest('.size-option');
   if (sizeOption) {
     const actions = sizeOption.closest('.product-actions');
-    actions.querySelectorAll('.size-option').forEach(item => item.classList.remove('selected'));
+    actions.querySelectorAll('.size-option').forEach(item => { item.classList.remove('selected'); item.setAttribute('aria-pressed', 'false'); });
     sizeOption.classList.add('selected');
+    sizeOption.setAttribute('aria-pressed', 'true');
     actions.querySelector('.add-order').dataset.size = sizeOption.dataset.size;
+  }
+  const resetButton = event.target.closest('[data-reset-catalog]');
+  if (resetButton) {
+    searchTerm = '';
+    const searchInput = document.querySelector('.search-box input');
+    if (searchInput) searchInput.value = '';
+    document.querySelectorAll('[data-filter]').forEach(item => {
+      const isTodos = item.dataset.filter === 'todos';
+      item.classList.toggle('active', isTodos);
+      item.setAttribute('aria-pressed', String(isTodos));
+    });
+    renderCatalog('todos');
   }
   const removeButton = event.target.closest('.remove-one, .remove-line');
   if (removeButton) {
@@ -92,7 +127,7 @@ document.addEventListener('click', event => {
   }
   const sizeButton = event.target.closest('.size-toggle');
   if (sizeButton) {
-    const panel = sizeButton.nextElementSibling.nextElementSibling;
+    const panel = sizeButton.closest('.product-actions').querySelector('.size-panel');
     panel.classList.toggle('open');
     sizeButton.classList.toggle('open');
     sizeButton.querySelector('span').textContent = panel.classList.contains('open') ? '−' : '+';
@@ -129,8 +164,9 @@ if (!catalog) {
 }
 
 document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {
-  document.querySelectorAll('[data-filter]').forEach(item => item.classList.remove('active'));
+  document.querySelectorAll('[data-filter]').forEach(item => { item.classList.remove('active'); item.setAttribute('aria-pressed', 'false'); });
   button.classList.add('active');
+  button.setAttribute('aria-pressed', 'true');
   renderCatalog(button.dataset.filter);
 }));
 
@@ -150,35 +186,6 @@ document.querySelectorAll('[data-whatsapp]').forEach(link => {
   link.target = '_blank';
   link.rel = 'noopener';
 });
-
-const contactPhone = document.querySelector('.contact-card .placeholder');
-if (contactPhone) contactPhone.textContent = '+54 11 3062-1946';
-const threadsLink = document.querySelector('.contact-detail a[href="#"]');
-if (threadsLink) {
-  threadsLink.href = 'https://www.threads.com/@jcl.pantalones';
-  threadsLink.target = '_blank';
-  threadsLink.rel = 'noopener';
-}
-const footerLinks = document.querySelector('.footer-links');
-document.querySelector('.footer-bottom span:last-child')?.remove();
-if (footerLinks && !footerLinks.querySelector('[data-instagram-link]')) {
-  const instagramLink = document.createElement('a');
-  instagramLink.dataset.instagramLink = 'true';
-  instagramLink.href = 'https://www.instagram.com/jcl.pantalones/';
-  instagramLink.target = '_blank';
-  instagramLink.rel = 'noopener';
-  instagramLink.textContent = 'Instagram';
-  footerLinks.appendChild(instagramLink);
-}
-if (footerLinks && !footerLinks.querySelector('[data-tiktok-link]')) {
-  const tiktokLink = document.createElement('a');
-  tiktokLink.dataset.tiktokLink = 'true';
-  tiktokLink.href = 'https://www.tiktok.com/@jcl_joggins';
-  tiktokLink.target = '_blank';
-  tiktokLink.rel = 'noopener';
-  tiktokLink.textContent = 'TikTok';
-  footerLinks.appendChild(tiktokLink);
-}
 
 const quantity = document.querySelector('#quantity');
 const unitPrice = document.querySelector('[data-unit-price]');
@@ -200,6 +207,13 @@ document.querySelector('.menu-toggle')?.addEventListener('click', event => {
   nav.classList.toggle('open');
   event.currentTarget.setAttribute('aria-expanded', nav.classList.contains('open'));
 });
+document.querySelector('.main-nav')?.addEventListener('click', event => {
+  if (!event.target.closest('a')) return;
+  document.querySelector('.main-nav').classList.remove('open');
+  document.querySelector('.menu-toggle')?.setAttribute('aria-expanded', 'false');
+});
+
+document.querySelectorAll('[data-year]').forEach(el => { el.textContent = new Date().getFullYear(); });
 
 const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); }), { threshold: 0.08 });
 document.querySelectorAll('.reveal, .product-card, .benefits article, .flow-grid article, .contact-detail').forEach(item => observer.observe(item));
