@@ -169,6 +169,15 @@ if (footerLinks && !footerLinks.querySelector('[data-instagram-link]')) {
   instagramLink.textContent = 'Instagram';
   footerLinks.appendChild(instagramLink);
 }
+if (footerLinks && !footerLinks.querySelector('[data-tiktok-link]')) {
+  const tiktokLink = document.createElement('a');
+  tiktokLink.dataset.tiktokLink = 'true';
+  tiktokLink.href = 'https://www.tiktok.com/@jcl_joggins';
+  tiktokLink.target = '_blank';
+  tiktokLink.rel = 'noopener';
+  tiktokLink.textContent = 'TikTok';
+  footerLinks.appendChild(tiktokLink);
+}
 
 const quantity = document.querySelector('#quantity');
 const unitPrice = document.querySelector('[data-unit-price]');
