@@ -59,9 +59,30 @@ if (contactForm) {
         const data = Object.fromEntries(formData.entries());
         const message = `Hola, Joaquín. Soy ${data.nombre}. Me interesa: ${data.servicio}. Mi WhatsApp es ${data.telefono || 'a confirmar'} y mi email es ${data.email}. ${data.mensaje || ''}`;
         window.open(`https://wa.me/541169024270?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+            let successMessage = this.querySelector('[data-form-success]');
+            if (!successMessage) { successMessage = document.createElement('p'); successMessage.dataset.formSuccess = 'true'; successMessage.className = 'mt-4 text-center text-sm text-green-600'; this.appendChild(successMessage); }
+            successMessage.textContent = 'Tu consulta está lista para enviarse por WhatsApp.';
         this.reset();
     });
 }
+
+const budgetType = document.querySelector('[data-budget-type]');
+const budgetExtra = document.querySelector('[data-budget-extra]');
+const budgetResult = document.querySelector('[data-budget-result]');
+const budgetLink = document.querySelector('[data-budget-link]');
+const budgetRanges = { landing: [180000, 260000], corporate: [320000, 480000], commerce: [420000, 680000] };
+function updateBudget() {
+    if (!budgetType || !budgetExtra || !budgetResult || !budgetLink) return;
+    const [minimum, maximum] = budgetRanges[budgetType.value];
+    const extra = Number(budgetExtra.value);
+    budgetResult.textContent = `$ ${(minimum + extra).toLocaleString('es-AR')} – $ ${(maximum + extra).toLocaleString('es-AR')}`;
+    budgetLink.href = `https://wa.me/541169024270?text=${encodeURIComponent(`Hola, Joaquín. Estimé un proyecto de ${budgetType.options[budgetType.selectedIndex].text} con ${budgetExtra.options[budgetExtra.selectedIndex].text}. Quiero conversar el presupuesto.`)}`;
+    budgetLink.target = '_blank';
+    budgetLink.rel = 'noopener';
+}
+budgetType?.addEventListener('change', updateBudget);
+budgetExtra?.addEventListener('change', updateBudget);
+updateBudget();
 
 
 

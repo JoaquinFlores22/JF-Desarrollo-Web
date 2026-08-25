@@ -17,6 +17,7 @@
     <link rel="canonical" href="https://joaquinflores22.github.io/JF-Desarrollo-Web/">
     <!-- Mantenemos JF como marca minimalista en el title interno -->
     <meta name="theme-color" content="#1A1A1A">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Estudio Flores","url":"https://joaquinflores22.github.io/JF-Desarrollo-Web/","email":"joaquinflores2207@gmail.com","sameAs":["https://www.instagram.com/jf_desarrolloweb/","https://github.com/JoaquinFlores22"],"areaServed":"AR","serviceType":"Desarrollo web"}</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
     tailwind.config = {
@@ -79,6 +80,7 @@
             <div class="hidden md:flex items-center gap-8 text-sm font-bold tracking-tight">
                 <a href="index.html" class="relative opacity-60 hover:opacity-100 transition-all after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-accent after:transition-all hover:after:w-full" data-i18n="nav_inicio">Inicio</a>
                 <a href="proyectos.html" class="relative opacity-60 hover:opacity-100 transition-all after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-accent after:transition-all hover:after:w-full" data-i18n="nav_proyectos">Proyectos</a>
+                <a href="casos.html" class="relative opacity-60 hover:opacity-100 transition-all after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-accent after:transition-all hover:after:w-full">Casos</a>
                 <a href="index.html#contacto" class="relative opacity-60 hover:opacity-100 transition-all after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-accent after:transition-all hover:after:w-full" data-i18n="nav_contacto">Contacto</a>
                 
                 <!-- Separador vertical -->
@@ -117,6 +119,7 @@
     <div id="mobile-menu" class="hidden md:hidden absolute top-24 left-6 right-6 glass-card bg-white/90 dark:bg-[#1A1A1A]/90 rounded-3xl p-8 flex flex-col gap-6 text-center font-bold shadow-2xl border border-black/5 dark:border-white/10 animate-reveal-up">
         <a href="index.html" data-i18n="nav_inicio" class="text-xl hover:text-accent transition-colors">Inicio</a>
         <a href="proyectos.html" data-i18n="nav_proyectos" class="text-xl hover:text-accent transition-colors">Proyectos</a>
+        <a href="casos.html" class="text-xl hover:text-accent transition-colors">Casos</a>
         <a href="index.html#contacto" data-i18n="nav_contacto" class="text-xl hover:text-accent transition-colors">Contacto</a>
         <div class="h-px bg-black/10 dark:bg-white/10 my-2"></div>
         <div class="flex justify-center gap-6">
@@ -272,6 +275,15 @@
 
 
 
+
+            <section id="proceso" class="max-w-6xl mx-auto py-24 px-6">
+                <div class="flex flex-col md:flex-row justify-between gap-10 mb-14"><div><p class="text-xs font-black uppercase tracking-[.2em] text-accent mb-4">Cómo trabajamos</p><h2 class="text-5xl md:text-6xl font-black tracking-tighter">De idea a activo<br><span class="text-gradient">que trabaja.</span></h2></div><p class="max-w-sm opacity-60 leading-relaxed">Un proceso claro para que sepas qué pasa, qué recibís y cuándo podés revisar cada avance.</p></div>
+                <div class="grid md:grid-cols-4 gap-5"><div class="border-t-2 border-accent pt-5"><b class="text-accent">01</b><h3 class="text-2xl font-black mt-10">Diagnóstico</h3><p class="text-sm opacity-60 mt-3">Entendemos tu negocio, audiencia y objetivo antes de diseñar.</p></div><div class="border-t-2 border-accent pt-5"><b class="text-accent">02</b><h3 class="text-2xl font-black mt-10">Estructura</h3><p class="text-sm opacity-60 mt-3">Ordenamos el contenido y definimos el recorrido que debe hacer tu cliente.</p></div><div class="border-t-2 border-accent pt-5"><b class="text-accent">03</b><h3 class="text-2xl font-black mt-10">Construcción</h3><p class="text-sm opacity-60 mt-3">Desarrollamos, probamos en mobile y ajustamos con feedback real.</p></div><div class="border-t-2 border-accent pt-5"><b class="text-accent">04</b><h3 class="text-2xl font-black mt-10">Publicación</h3><p class="text-sm opacity-60 mt-3">Dejamos tu sitio online, medible y listo para seguir creciendo.</p></div></div>
+            </section>
+
+            <section id="presupuesto" class="max-w-5xl mx-auto py-24 px-6">
+                <div class="bg-[#1A1A1A] text-white rounded-[2.5rem] p-8 md:p-14 grid md:grid-cols-2 gap-12 items-center"><div><p class="text-xs font-black uppercase tracking-[.2em] text-blue-300 mb-5">Estimá tu proyecto</p><h2 class="text-4xl md:text-5xl font-black tracking-tighter">Una primera cifra<br>para empezar.</h2><p class="text-white/60 mt-5 max-w-sm">Elegí el alcance. Te damos un rango orientativo y podés enviarlo por WhatsApp para conversar los detalles.</p></div><div class="space-y-5"><label class="block text-sm font-bold">Tipo de proyecto<select data-budget-type class="mt-2 w-full p-4 rounded-2xl bg-white/10 border border-white/20 text-white"><option value="landing">Landing de lanzamiento</option><option value="corporate">Sitio corporativo</option><option value="commerce">Catálogo / e-commerce</option></select></label><label class="block text-sm font-bold">Extras<select data-budget-extra class="mt-2 w-full p-4 rounded-2xl bg-white/10 border border-white/20 text-white"><option value="0">Sin extras</option><option value="30000">Carrito y WhatsApp</option><option value="50000">SEO y analítica</option><option value="80000">Carrito + SEO</option></select></label><div class="border-t border-white/20 pt-5 flex justify-between items-end"><span class="text-sm text-white/60">Rango orientativo</span><strong data-budget-result class="text-3xl font-black text-blue-300">$ 180.000 – $ 260.000</strong></div><a data-budget-link href="#contacto" class="block text-center py-4 rounded-full bg-white text-black font-black hover:bg-blue-300 transition">Consultar esta propuesta →</a></div></div>
+            </section>
 
             <!--servicios y cards-->
         <section id="servicios" class="max-w-6xl mx-auto py-32 px-6">

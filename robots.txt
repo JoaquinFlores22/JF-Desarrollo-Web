@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://joaquinflores22.github.io/JF-Desarrollo-Web/sitemap.xml
