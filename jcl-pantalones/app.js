@@ -46,7 +46,14 @@ const selectedOrder = JSON.parse(localStorage.getItem('jcl-order') || '[]').map(
 const orderDock = document.createElement('aside');
 orderDock.className = 'order-dock';
 orderDock.innerHTML = '<div class="order-summary"><span><b data-order-count>0</b> prendas en tu pedido · <b data-order-total>$ 0</b></span><button class="clear-order" type="button">Vaciar pedido</button><div class="order-list" data-order-list></div></div><a class="button button-terracotta" data-order-link href="#">Ver pedido en WhatsApp <span>↗</span></a>';
-if (catalog) document.body.appendChild(orderDock);
+document.body.appendChild(orderDock);
+
+const headerCart = document.createElement('a');
+headerCart.className = 'header-cart';
+headerCart.href = '#';
+headerCart.innerHTML = 'Pedido <b data-header-count>0</b>';
+headerCart.addEventListener('click', event => { event.preventDefault(); orderDock.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+document.querySelector('.header-cta')?.before(headerCart);
 
 function updateOrder() {
   const countElement = orderDock.querySelector('[data-order-count]');
@@ -55,6 +62,7 @@ function updateOrder() {
   const orderTotal = selectedOrder.reduce((total, item) => total + item.price * item.quantity, 0);
   const summary = selectedOrder.map(item => `- ${item.name} (${item.color}, talle ${item.size}) x${item.quantity}`).join('\n');
   countElement.textContent = itemCount;
+  headerCart.querySelector('[data-header-count]').textContent = itemCount;
   orderDock.querySelector('[data-order-total]').textContent = money(orderTotal);
   orderDock.querySelector('[data-order-list]').innerHTML = selectedOrder.map((item, index) => `<div class="order-line"><span>${item.name} · ${item.size} <b>x${item.quantity}</b></span><button class="remove-one" type="button" data-order-index="${index}" aria-label="Quitar una unidad de ${item.name}">−1</button><button class="remove-line" type="button" data-order-index="${index}" aria-label="Eliminar ${item.name}">×</button></div>`).join('');
   link.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola, JCL. Quiero consultar este pedido:\n${summary}\n\n¿Me confirman talles, stock y precio final?`)}`;
