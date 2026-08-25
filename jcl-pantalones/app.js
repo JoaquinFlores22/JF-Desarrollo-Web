@@ -28,6 +28,23 @@ const count = document.querySelector('[data-count]');
 let currentFilter = new URLSearchParams(window.location.search).get('tipo') || 'todos';
 let searchTerm = '';
 
+// Se carga acá arriba (antes de renderCatalog, que ya la necesita para pintar los botones
+// "Agregado x1 ✓" al primer render) y no más abajo junto al order-dock como estaba antes.
+let selectedOrder = [];
+try { selectedOrder = JSON.parse(storage.get('jcl-order', '[]')).map(item => ({ ...item, quantity: item.quantity || 1 })); } catch { /* datos guardados corruptos: seguimos con el pedido vacío */ }
+
+// Un solo lugar que decide cómo se ve un botón "Agregar al pedido" según selectedOrder, para no
+// tener el estado del carrito y el texto del botón desincronizados (el bug: al sacar del carrito
+// el botón se quedaba en "Agregado x1 ✓" para siempre porque nada lo volvía a tocar).
+function syncAddButtons() {
+  document.querySelectorAll('.add-order').forEach(button => {
+    const size = button.dataset.size || 'A confirmar';
+    const existing = selectedOrder.find(item => item.name === button.dataset.product && item.size === size);
+    button.textContent = existing ? `Agregado x${existing.quantity} ✓` : 'Agregar al pedido';
+    button.classList.toggle('added', Boolean(existing));
+  });
+}
+
 const emptyState = '<div class="catalog-empty"><p>No encontramos modelos con ese criterio.</p><button type="button" class="text-link" data-reset-catalog>Ver todo el catálogo <span>→</span></button></div>';
 
 function renderCatalog(filter = 'todos') {
@@ -36,6 +53,7 @@ function renderCatalog(filter = 'todos') {
   const visible = products.filter(product => (filter === 'todos' || product.type === filter) && `${product.name} ${product.color}`.toLowerCase().includes(searchTerm));
   catalog.innerHTML = visible.length ? visible.map(productCard).join('') : emptyState;
   if (count) count.textContent = `${visible.length} modelos`;
+  syncAddButtons();
 }
 
 if (featured) featured.innerHTML = products.slice(0, 3).map(productCard).join('');
@@ -68,8 +86,6 @@ if (catalog) {
   });
 }
 
-let selectedOrder = [];
-try { selectedOrder = JSON.parse(storage.get('jcl-order', '[]')).map(item => ({ ...item, quantity: item.quantity || 1 })); } catch { /* datos guardados corruptos: seguimos con el pedido vacío */ }
 const orderDock = document.createElement('aside');
 orderDock.className = 'order-dock';
 orderDock.setAttribute('role', 'region');
@@ -90,6 +106,7 @@ function updateOrder() {
   link.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola, JCL. Quiero consultar este pedido:\n${summary}\n\n¿Me confirman talles, stock y precio final?`)}`;
   orderDock.classList.toggle('has-items', itemCount > 0);
   storage.set('jcl-order', JSON.stringify(selectedOrder));
+  syncAddButtons();
 }
 
 document.addEventListener('click', event => {
@@ -139,8 +156,6 @@ document.addEventListener('click', event => {
     const existing = selectedOrder.find(item => item.name === product?.name && item.size === size);
     if (existing) existing.quantity += 1;
     else if (product) selectedOrder.push({ ...product, size, quantity: 1 });
-    addButton.textContent = existing ? `Agregado x${existing.quantity} ✓` : 'Agregado x1 ✓';
-    addButton.classList.add('added');
     updateOrder();
   }
 });
