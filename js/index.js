@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         gsap.utils.toArray(".grid > div").forEach((card, i) => {
             gsap.from(card, {
-                scrollTrigger: { trigger: card, start: "top bottom-=100" },
-                opacity: 0, y: 50, duration: 0.8, delay: i * 0.2
+                scrollTrigger: { trigger: card, start: "top bottom-=40" },
+                opacity: 0, y: 24, duration: 0.35, delay: i * 0.06, ease: "power2.out"
             });
         });
     }
