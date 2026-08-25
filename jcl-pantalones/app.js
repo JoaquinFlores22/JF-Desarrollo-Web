@@ -160,6 +160,7 @@ if (threadsLink) {
   threadsLink.rel = 'noopener';
 }
 const footerLinks = document.querySelector('.footer-links');
+document.querySelector('.footer-bottom span:last-child')?.remove();
 if (footerLinks && !footerLinks.querySelector('[data-instagram-link]')) {
   const instagramLink = document.createElement('a');
   instagramLink.dataset.instagramLink = 'true';
