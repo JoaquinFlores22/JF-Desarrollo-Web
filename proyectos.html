@@ -40,6 +40,9 @@
         
         <div class="hidden md:flex items-center gap-8 text-sm font-semibold opacity-70">
             <a href="index.html" class="hover:text-accent transition-colors" data-i18n="nav_inicio">Inicio</a>
+            <a href="proyectos.html" class="hover:text-accent transition-colors" data-i18n="nav_proyectos">Proyectos</a>
+            <a href="casos.html" class="hover:text-accent transition-colors">Casos</a>
+            <a href="index.html#contacto" class="hover:text-accent transition-colors">Contacto</a>
             <div class="flex items-center gap-4">
                 <div class="relative group">
                     <button id="theme-toggle" type="button" aria-label="Cambiar entre modo claro y oscuro" class="p-2 rounded-xl bg-black/5 dark:bg-white/5">🌙</button>
@@ -61,10 +64,12 @@
     <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-[#1A1A1A] border-t border-black/5 dark:border-white/10 p-6 flex-col gap-4 text-center font-semibold">
         <a href="index.html" class="block py-2">Inicio</a>
         <a href="proyectos.html" class="block py-2">Proyectos</a>
+        <a href="casos.html" class="block py-2">Casos</a>
+        <a href="index.html#contacto" class="block py-2">Contacto</a>
         <div class="flex justify-center gap-4 pt-4 border-t border-black/5">
-            <button onclick="document.getElementById('theme-toggle').click()">🌙/☀️</button>
-            <button onclick="changeLanguage('es')">ES</button>
-            <button onclick="changeLanguage('en')">EN</button>
+            <button type="button" aria-label="Cambiar entre modo claro y oscuro" onclick="document.getElementById('theme-toggle').click()">🌙/☀️</button>
+            <button type="button" aria-label="Cambiar a español" onclick="changeLanguage('es')">ES</button>
+            <button type="button" aria-label="Cambiar a inglés" onclick="changeLanguage('en')">EN</button>
         </div>
     </div>
 </nav>
