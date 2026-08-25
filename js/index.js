@@ -54,47 +54,12 @@ const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
     contactForm.addEventListener('submit', async function(event) {
-        // 1. Detenemos el envío normal
         event.preventDefault();
-
-        const btn = document.getElementById('submitBtn');
-        const originalBtnText = btn.innerText;
-        btn.disabled = true;
-        btn.innerText = "Enviando...";
-
-        // 2. Capturamos y procesamos los datos
         const formData = new FormData(this);
         const data = Object.fromEntries(formData.entries());
-        
-        // Limpiamos el teléfono para el envío técnico
-        const originalTel = data.telefono;
-        data.telefono = originalTel.replace(/\D/g, ''); 
-
-        try {
-            // Cambia '/api/send-email' por la URL real de tu servidor o función serverless
-                const response = await fetch('/api/send-email', { 
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-            if (response.ok) {
-                console.log("Servidor respondió con éxito");
-                alert("¡Éxito! El mensaje se envió correctamente.");
-                this.reset();
-            } else {
-                throw new Error('Error en la respuesta del servidor');
-            }
-        } catch (err) {
-            console.error("Error al conectar con el backend:", err);
-            alert("Hubo un problema al enviar tu consulta. Por favor, intenta de nuevo.");
-        } finally {
-            // 4. Restauramos el estado del botón
-            btn.disabled = false;
-            btn.innerText = originalBtnText;
-        }
+        const message = `Hola, Joaquín. Soy ${data.nombre}. Me interesa: ${data.servicio}. Mi WhatsApp es ${data.telefono || 'a confirmar'} y mi email es ${data.email}. ${data.mensaje || ''}`;
+        window.open(`https://wa.me/541169024270?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+        this.reset();
     });
 }
 
@@ -154,6 +119,7 @@ if (langBtn) {
     langBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         langMenu.classList.toggle('hidden');
+        langBtn.setAttribute('aria-expanded', String(!langMenu.classList.contains('hidden')));
     });
 }
 
