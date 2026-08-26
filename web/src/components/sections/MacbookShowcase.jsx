@@ -2,9 +2,9 @@ import { MacbookScroll } from '../ui/macbook-scroll';
 import TextType from '../ui/text-type';
 import SplitFlapText from '../ui/split-flap-text';
 
-// Imagen temporal: screenshot real de nuestra propia home (desarrollodigital.vercel.app).
-// TODO: reemplazar por la URL final que decidamos (ver charla con el usuario).
-const SCREEN_SRC = '/img/macbook-preview.png';
+// Screenshot real de nuestra propia home (desarrollodigital.vercel.app),
+// encuadrado a la proporcion real de la pantalla del componente (4:3).
+const SCREEN_SRC = '/img/macbook-preview.jpg';
 
 export default function MacbookShowcase() {
   return (
