@@ -4,6 +4,7 @@ import Footer from './components/layout/Footer';
 import FloatingWhatsApp from './components/layout/FloatingWhatsApp';
 import Hero from './components/hero/Hero';
 import BenefitsBand from './components/sections/BenefitsBand';
+import MacbookShowcase from './components/sections/MacbookShowcase';
 import LeadMagnet from './components/sections/LeadMagnet';
 import Process from './components/sections/Process';
 import BudgetCalculator from './components/sections/BudgetCalculator';
@@ -23,6 +24,7 @@ export default function App() {
       <main className="max-w-5xl mx-auto px-6 pt-32 pb-24">
         <Hero />
         <BenefitsBand />
+        <MacbookShowcase />
         <LeadMagnet />
         <Process />
         <BudgetCalculator />
