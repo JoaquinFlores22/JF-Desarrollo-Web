@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
 import { budgetRanges, budgetTypeLabels, budgetExtras } from '../../data/budgetRanges';
+import { useMagneticHover } from '../../hooks/useMagneticHover';
 
 export default function BudgetCalculator() {
+  const { ref: magneticRef, onMouseMove, onMouseLeave } = useMagneticHover();
   const [type, setType] = useState('landing');
   const [extra, setExtra] = useState(0);
 
@@ -62,6 +64,9 @@ export default function BudgetCalculator() {
           </div>
 
           <a
+            ref={magneticRef}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
             href={waLink}
             target="_blank"
             rel="noopener noreferrer"

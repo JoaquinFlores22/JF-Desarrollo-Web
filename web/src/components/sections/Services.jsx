@@ -1,7 +1,9 @@
 import { useLanguage } from '../../context/LanguageContext';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 export default function Services({ onSelectService }) {
   const { t } = useLanguage();
+  const gridRef = useScrollReveal();
 
   const selectAndScroll = (service) => (e) => {
     e.preventDefault();
@@ -13,9 +15,9 @@ export default function Services({ onSelectService }) {
     <section id="servicios" className="max-w-6xl mx-auto py-32 px-6">
       <h2 className="text-6xl font-black mb-24 text-center tracking-tighter">{t('servicios_titulo')}</h2>
 
-      <div className="grid md:grid-cols-3 gap-10 items-start">
+      <div ref={gridRef} className="grid md:grid-cols-3 gap-10 items-start">
         {/* PLAN 1: LANZAMIENTO */}
-        <div className="relative bg-white/40 dark:bg-[#2A2A2A]/40 backdrop-blur-2xl p-10 rounded-[3rem] border border-black/5 dark:border-white/10 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 group">
+        <div className="relative bg-white/40 dark:bg-[#2A2A2A]/40 backdrop-blur-2xl p-10 rounded-[3rem] border border-black/5 dark:border-white/10 transition-shadow duration-500 hover:shadow-2xl hover:-translate-y-2 group">
           <div className="text-accent font-black text-xs uppercase tracking-[0.2em] mb-4 opacity-70">{t('serv_basico')}</div>
           <h3 className="text-3xl font-black mb-6 group-hover:text-accent transition-colors">{t('serv_basico_titulo')}</h3>
           <p className="text-sm opacity-60 mb-8 leading-relaxed">{t('serv_basico_desc')}</p>
@@ -52,7 +54,7 @@ export default function Services({ onSelectService }) {
         </div>
 
         {/* PLAN 3: MANTENIMIENTO */}
-        <div className="relative bg-white/40 dark:bg-[#2A2A2A]/40 backdrop-blur-2xl p-10 rounded-[3rem] border border-black/5 dark:border-white/10 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 group">
+        <div className="relative bg-white/40 dark:bg-[#2A2A2A]/40 backdrop-blur-2xl p-10 rounded-[3rem] border border-black/5 dark:border-white/10 transition-shadow duration-500 hover:shadow-2xl hover:-translate-y-2 group">
           <div className="text-accent font-black text-xs uppercase tracking-[0.2em] mb-4 opacity-70">{t('serv_mantenimiento')}</div>
           <h3 className="text-3xl font-black mb-6 group-hover:text-accent transition-colors">{t('serv_mantenimiento_titulo')}</h3>
           <p className="text-sm opacity-60 mb-8 leading-relaxed">{t('serv_mantenimiento_desc')}</p>

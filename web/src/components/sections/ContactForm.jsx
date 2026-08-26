@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useMagneticHover } from '../../hooks/useMagneticHover';
 
 const INITIAL = { servicio: '', nombre: '', email: '', telefono: '', mensaje: '' };
 
 export default function ContactForm({ selectedService, onSelectService }) {
   const { t } = useLanguage();
+  const { ref: magneticRef, onMouseMove, onMouseLeave } = useMagneticHover();
   const [form, setForm] = useState(INITIAL);
   const [sent, setSent] = useState(false);
 
@@ -83,6 +85,9 @@ export default function ContactForm({ selectedService, onSelectService }) {
           </div>
 
           <button
+            ref={magneticRef}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
             type="submit"
             className="w-full py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-black hover:bg-blue-600 transition-all transform hover:scale-[1.02]"
           >

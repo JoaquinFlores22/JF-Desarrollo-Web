@@ -1,4 +1,6 @@
 import { useLanguage } from '../../context/LanguageContext';
+import { useMagneticHover } from '../../hooks/useMagneticHover';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 const STATS = [
   { valueKey: 'beneficios_maxima', labelKey: 'beneficios_velocidad' },
@@ -9,6 +11,8 @@ const STATS = [
 
 export default function BenefitsBand() {
   const { t } = useLanguage();
+  const { ref: magneticRef, onMouseMove, onMouseLeave } = useMagneticHover();
+  const gridRef = useScrollReveal();
 
   return (
     <section className="py-20">
@@ -29,6 +33,9 @@ export default function BenefitsBand() {
             </div>
 
             <button
+              ref={magneticRef}
+              onMouseMove={onMouseMove}
+              onMouseLeave={onMouseLeave}
               onClick={() => document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' })}
               className="group relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden transition-all hover:scale-105 hover:bg-accent hover:text-white"
             >
@@ -39,7 +46,7 @@ export default function BenefitsBand() {
 
           <div className="my-10 h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {STATS.map((stat) => (
               <div className="group" key={stat.valueKey}>
                 <div className="text-3xl font-black text-white group-hover:text-accent transition-colors">{t(stat.valueKey)}</div>
