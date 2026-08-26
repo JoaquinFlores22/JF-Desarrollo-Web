@@ -61,6 +61,13 @@ export function MacbookScroll({ src, showGradient, title, badge, sidePanel }) {
   const panelX = useTransform(scrollYProgress, [0.45, 0.68], [isMobile ? 0 : 120, 0]);
   const panelY = useTransform(scrollYProgress, [0.45, 0.68], [isMobile ? 30 : 0, 0]);
 
+  // Fase 3 (0.72 -> 0.9): fade-out de todo el bloque. position:sticky "viaja"
+  // pegado al borde inferior de su contenedor una vez que este ya casi
+  // termino de salir de pantalla (asi funciona sticky, no es un bug) -- sin
+  // este fade, ese resto queda un instante superpuesto con la seccion
+  // siguiente. Lo desvanecemos antes de que eso pase.
+  const wrapperOpacity = useTransform(scrollYProgress, [0.72, 0.9], [1, 0]);
+
   // panelOpacity.get() calcula bien (confirmado con logs), pero el binding
   // declarativo style={{opacity: panelOpacity}} no llega a pintarse en este
   // nodo -- se aplica a mano via subscribe/on('change') como salida segura.
@@ -72,9 +79,17 @@ export function MacbookScroll({ src, showGradient, title, badge, sidePanel }) {
     });
   }, [panelOpacity]);
 
+  const wrapperRef = useRef(null);
+  useEffect(() => {
+    if (wrapperRef.current) wrapperRef.current.style.opacity = String(wrapperOpacity.get());
+    return wrapperOpacity.on('change', (v) => {
+      if (wrapperRef.current) wrapperRef.current.style.opacity = String(v);
+    });
+  }, [wrapperOpacity]);
+
   return (
     <div ref={ref} className="relative flex min-h-[190vh] shrink-0 flex-col items-center [perspective:800px]">
-      <div className="sticky top-16 flex w-full scale-[0.35] transform flex-col items-center justify-start py-0 sm:scale-50 md:scale-100 md:py-10">
+      <div ref={wrapperRef} className="sticky top-16 flex w-full scale-[0.35] transform flex-col items-center justify-start py-0 sm:scale-50 md:scale-100 md:py-10">
         <motion.h2
           style={{ translateY: textTransform, opacity: textOpacity }}
           className="mb-20 text-center text-3xl font-black tracking-tighter text-graphite dark:text-white"
