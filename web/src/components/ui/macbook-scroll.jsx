@@ -53,6 +53,12 @@ export function MacbookScroll({ src, showGradient, title, badge, sidePanel }) {
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  // El marco/bisel estatico de la tapa esta pensado para asomar solo
+  // mientras la pantalla todavia esta chica/inclinada; una vez que termina
+  // de abrirse (y sobre todo mientras la dejamos quieta en la fase 2) queda
+  // "flotando" separado de la pantalla en vez de taparse por completo. Se
+  // desvanece apenas termina la apertura.
+  const bezelOpacity = useTransform(scrollYProgress, [0.15, 0.3], [1, 0]);
 
   // Fase 2 (0.45 -> 0.68): la laptop ya esta abierta y quieta; se corre a la
   // izquierda mientras el panel lateral entra desde la derecha.
@@ -99,7 +105,7 @@ export function MacbookScroll({ src, showGradient, title, badge, sidePanel }) {
 
         <div className="flex flex-col items-center md:flex-row md:items-center md:justify-center md:gap-x-16">
           <motion.div style={{ x: laptopSlideX }} className="flex flex-col items-center">
-            <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} />
+            <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} bezelOpacity={bezelOpacity} />
 
             <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
               <div className="relative h-10 w-full">
@@ -134,10 +140,20 @@ export function MacbookScroll({ src, showGradient, title, badge, sidePanel }) {
   );
 }
 
-function Lid({ scaleX, scaleY, rotate, translate, src }) {
+function Lid({ scaleX, scaleY, rotate, translate, src, bezelOpacity }) {
+  const bezelRef = useRef(null);
+  useEffect(() => {
+    if (!bezelOpacity) return;
+    if (bezelRef.current) bezelRef.current.style.opacity = String(bezelOpacity.get());
+    return bezelOpacity.on('change', (v) => {
+      if (bezelRef.current) bezelRef.current.style.opacity = String(v);
+    });
+  }, [bezelOpacity]);
+
   return (
     <div className="relative [perspective:800px]">
       <div
+        ref={bezelRef}
         style={{
           transform: 'perspective(800px) rotateX(-25deg) translateZ(0px)',
           transformOrigin: 'bottom',
