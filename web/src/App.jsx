@@ -5,7 +5,6 @@ import FloatingWhatsApp from './components/layout/FloatingWhatsApp';
 import Hero from './components/hero/Hero';
 import BenefitsBand from './components/sections/BenefitsBand';
 import MacbookShowcase from './components/sections/MacbookShowcase';
-import LeadMagnet from './components/sections/LeadMagnet';
 import Process from './components/sections/Process';
 import BudgetCalculator from './components/sections/BudgetCalculator';
 import Services from './components/sections/Services';
@@ -26,7 +25,6 @@ export default function App() {
         <Hero />
         <BenefitsBand />
         <MacbookShowcase />
-        <LeadMagnet />
         <Process />
         <BudgetCalculator />
         <Services onSelectService={setSelectedService} />
