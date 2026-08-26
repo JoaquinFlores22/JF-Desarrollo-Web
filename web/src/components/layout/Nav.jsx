@@ -20,7 +20,7 @@ export default function Nav() {
   return (
     <nav className="fixed w-full z-50 top-6 px-6">
       <div className="max-w-5xl mx-auto">
-        <div className="glass-card bg-[#1A1A1A]/70 backdrop-blur-xl rounded-3xl border border-black/5 dark:border-white/10 px-6 py-4 flex justify-between items-center shadow-2xl shadow-black/5">
+        <div className="bg-[#1A1A1A]/95 backdrop-blur-2xl rounded-3xl border border-black/5 dark:border-white/10 px-6 py-4 flex justify-between items-center shadow-2xl shadow-black/5">
           <a href="/" className="text-2xl font-black tracking-tighter italic group text-white">
             JF<span className="text-gradient group-hover:animate-pulse">.</span>
           </a>

@@ -8,7 +8,7 @@ export default function MobileMenu({ open }) {
   if (!open) return null;
 
   return (
-    <div className="md:hidden absolute top-24 left-6 right-6 glass-card bg-white/90 dark:bg-[#1A1A1A]/90 rounded-3xl p-8 flex flex-col gap-6 text-center font-bold shadow-2xl border border-black/5 dark:border-white/10 animate-reveal-up">
+    <div className="md:hidden absolute top-24 left-6 right-6 bg-white/95 dark:bg-[#1A1A1A]/95 backdrop-blur-2xl rounded-3xl p-8 flex flex-col gap-6 text-center font-bold shadow-2xl border border-black/5 dark:border-white/10 animate-reveal-up">
       <a href="/" className="text-xl hover:text-accent transition-colors">{t('nav_inicio')}</a>
       <a href="/proyectos.html" className="text-xl hover:text-accent transition-colors">{t('nav_proyectos')}</a>
       <a href="/casos.html" className="text-xl hover:text-accent transition-colors">Casos</a>
