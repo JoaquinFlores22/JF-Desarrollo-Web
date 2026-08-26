@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 
-// Puerto a JS (sin TypeScript, sin alias "@/") del MacbookScroll de Aceternity UI:
-// https://ui.aceternity.com/components/macbook-scroll — misma mecánica de scroll
-// (la tapa se "cierra" y se acerca a medida que scrolleás), adaptada al stack de
-// este proyecto (Vite + JSX simple, imports relativos).
-export function MacbookScroll({ src, showGradient = false, title, badge }) {
+// Puerto a JS (sin TypeScript, sin alias "@/") del MacbookScroll de Aceternity UI,
+// simplificado a propósito: en el original la pantalla sigue viajando (translateY
+// hasta 1500px) durante todo el scroll y termina superpuesta/oculta sobre el
+// teclado — acá la tapa se abre, se asienta y se queda quieta y visible, con un
+// texto explicativo que aparece al lado una vez que terminó de abrirse.
+export function MacbookScroll({ src, caption, title }) {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 90, damping: 26, restDelta: 0.001 });
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -17,44 +19,55 @@ export function MacbookScroll({ src, showGradient = false, title, badge }) {
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  const scaleX = useTransform(scrollYProgress, [0, 0.3], [1.2, isMobile ? 1 : 1.5]);
-  const scaleY = useTransform(scrollYProgress, [0, 0.3], [0.6, isMobile ? 1 : 1.5]);
-  const translate = useTransform(scrollYProgress, [0, 1], [0, 1500]);
-  const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
-  const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  // Fase 1 (0 → 0.4): la tapa se abre y se asienta. Fase 2 (en adelante):
+  // todo queda quieto, solo entra el texto explicativo.
+  const scaleX = useTransform(smoothProgress, [0, 0.4], [1.15, 1]);
+  const scaleY = useTransform(smoothProgress, [0, 0.4], [0.7, 1]);
+  const rotate = useTransform(smoothProgress, [0, 0.4], [isMobile ? -12 : -22, 0]);
+  const translate = useTransform(smoothProgress, [0, 0.4], [24, 0]);
+
+  const titleOpacity = useTransform(smoothProgress, [0, 0.18], [1, 0]);
+  const titleTranslate = useTransform(smoothProgress, [0, 0.18], [0, -40]);
+
+  const captionOpacity = useTransform(smoothProgress, [0.45, 0.65], [0, 1]);
+  const captionTranslate = useTransform(smoothProgress, [0.45, 0.65], [24, 0]);
 
   return (
-    <div
-      ref={ref}
-      className="flex min-h-[200vh] shrink-0 transform flex-col items-center justify-start py-0 [perspective:800px] md:py-64"
-    >
-      <motion.h2
-        style={{ translateY: textTransform, opacity: textOpacity }}
-        className="mb-16 text-center text-3xl md:text-5xl font-black tracking-tighter"
-      >
-        {title}
-      </motion.h2>
+    <div ref={ref} className="relative flex min-h-[140vh] shrink-0 flex-col items-center justify-start [perspective:800px] md:py-32">
+      <div className="sticky top-24 flex w-full flex-col items-center">
+        <motion.h2
+          style={{ opacity: titleOpacity, translateY: titleTranslate }}
+          className="mb-14 px-6 text-center text-3xl md:text-5xl font-black tracking-tighter"
+        >
+          {title}
+        </motion.h2>
 
-      {/* Lid: cámara + pantalla que muestra `src`, atadas al scroll */}
-      <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} />
+        <div className="mx-auto flex w-full max-w-lg flex-col items-center gap-8 px-6 md:max-w-none md:flex-row md:items-start md:justify-center md:gap-14 md:px-0">
+          {/* Laptop */}
+          <div className="relative w-full max-w-lg shrink-0 md:w-[32rem]">
+            <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} />
+            <div className="relative -z-10 h-[13rem] w-full overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729] md:h-[22rem]">
+              <div className="relative h-6 w-full md:h-10">
+                <div className="absolute inset-x-0 mx-auto h-2.5 w-[80%] bg-[#050505] md:h-4" />
+              </div>
+              <div className="relative flex">
+                <div className="mx-auto h-full w-[10%] overflow-hidden"><SpeakerGrid /></div>
+                <div className="mx-auto h-full w-[80%]"><Keyboard /></div>
+                <div className="mx-auto h-full w-[10%] overflow-hidden"><SpeakerGrid /></div>
+              </div>
+              <Trackpad />
+              <div className="absolute inset-x-0 bottom-0 mx-auto h-2 w-20 rounded-tl-3xl rounded-tr-3xl bg-gradient-to-t from-[#272729] to-[#050505]" />
+            </div>
+          </div>
 
-      {/* Base: teclado, trackpad, parlantes */}
-      <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
-        <div className="relative h-10 w-full">
-          <div className="absolute inset-x-0 mx-auto h-4 w-[80%] bg-[#050505]" />
+          {/* Explicación: aparece al lado una vez que la laptop terminó de abrirse */}
+          <motion.div
+            style={{ opacity: captionOpacity, translateY: captionTranslate }}
+            className="max-w-sm px-6 text-center md:px-0 md:pt-16 md:text-left"
+          >
+            <p className="text-lg md:text-xl font-medium leading-relaxed opacity-80">{caption}</p>
+          </motion.div>
         </div>
-        <div className="relative flex">
-          <div className="mx-auto h-full w-[10%] overflow-hidden"><SpeakerGrid /></div>
-          <div className="mx-auto h-full w-[80%]"><Keyboard /></div>
-          <div className="mx-auto h-full w-[10%] overflow-hidden"><SpeakerGrid /></div>
-        </div>
-        <Trackpad />
-        <div className="absolute inset-x-0 bottom-0 mx-auto h-2 w-20 rounded-tl-3xl rounded-tr-3xl bg-gradient-to-t from-[#272729] to-[#050505]" />
-        {showGradient && (
-          <div className="absolute inset-x-0 bottom-0 z-50 h-40 w-full bg-gradient-to-t from-white via-white to-transparent dark:from-black dark:via-black" />
-        )}
-        {badge && <div className="absolute bottom-4 left-4">{badge}</div>}
       </div>
     </div>
   );
@@ -69,18 +82,14 @@ function Lid({ scaleX, scaleY, rotate, translate, src }) {
           transformOrigin: 'bottom',
           transformStyle: 'preserve-3d',
         }}
-        className="relative h-[12rem] w-[32rem] rounded-2xl bg-[#010101] p-2"
+        className="relative h-24 w-full rounded-2xl bg-[#010101] p-2 md:h-[12rem]"
       >
         <div
           style={{ boxShadow: '0px 2px 0px 2px #171717 inset' }}
           className="absolute inset-0 flex items-center justify-center rounded-lg bg-[#010101]"
         >
-          <span className="text-white">
-            <AceternityLogo />
-          </span>
+          <span className="text-white"><AceternityLogo /></span>
         </div>
-        <div className="absolute left-0 top-[10%] h-40 w-px bg-gradient-to-b from-transparent via-white to-transparent" />
-        <div className="absolute right-0 top-[10%] h-40 w-px bg-gradient-to-b from-transparent via-white to-transparent" />
         <span className="absolute left-[50%] top-0 h-2 w-16 -translate-x-1/2 rounded-b-xl bg-[#010101]" />
       </div>
       <motion.div
@@ -92,7 +101,7 @@ function Lid({ scaleX, scaleY, rotate, translate, src }) {
           transformStyle: 'preserve-3d',
           transformOrigin: 'top',
         }}
-        className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2"
+        className="absolute inset-0 h-56 w-full rounded-2xl bg-[#010101] p-2 md:h-96"
       >
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
         {src && (
@@ -121,7 +130,7 @@ function AceternityLogo() {
 function SpeakerGrid() {
   return (
     <div
-      className="mt-2 flex h-40 gap-[2px] px-[0.5px]"
+      className="mt-2 flex h-16 gap-[2px] px-[0.5px] md:h-40"
       style={{
         backgroundImage: 'radial-gradient(circle, #08070706 0.5px, transparent 0.5px)',
         backgroundSize: '3px 3px',
@@ -133,7 +142,7 @@ function SpeakerGrid() {
 function Trackpad() {
   return (
     <div
-      className="absolute inset-x-0 bottom-0 mx-auto h-32 w-[40%] rounded-xl"
+      className="absolute inset-x-0 bottom-0 mx-auto hidden h-32 w-[40%] rounded-xl md:block"
       style={{ boxShadow: '0px 0px 1px 1px #00000020 inset' }}
     />
   );
@@ -149,7 +158,7 @@ const KEY_ROWS = [
 
 function Keyboard() {
   return (
-    <div className="mx-1 mb-2 mt-1 h-full rounded-md bg-[#050505] p-1">
+    <div className="mx-1 mb-2 mt-1 hidden h-full rounded-md bg-[#050505] p-1 md:block">
       {KEY_ROWS.map((row, i) => (
         <div className="mb-[2px] flex w-full shrink-0 gap-[2px]" key={i}>
           {row.map((key) => (

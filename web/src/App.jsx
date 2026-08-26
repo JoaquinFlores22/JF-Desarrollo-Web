@@ -11,6 +11,7 @@ import BudgetCalculator from './components/sections/BudgetCalculator';
 import Services from './components/sections/Services';
 import AccordionGallery from './components/sections/ProjectShowcase/AccordionGallery';
 import Faq from './components/sections/Faq';
+import TerminalShowcase from './components/sections/TerminalShowcase';
 import ClosingCta from './components/sections/ClosingCta';
 import ContactForm from './components/sections/ContactForm';
 
@@ -31,6 +32,7 @@ export default function App() {
         <Services onSelectService={setSelectedService} />
         <AccordionGallery />
         <Faq />
+        <TerminalShowcase />
         <ClosingCta />
         <ContactForm selectedService={selectedService} onSelectService={setSelectedService} />
       </main>

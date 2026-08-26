@@ -14,7 +14,7 @@ export default function MacbookShowcase() {
           </span>
         }
         src={SCREEN_SRC}
-        showGradient={false}
+        caption="Esta es justamente la web que estás mirando ahora mismo: responsive, rápida, y construida con el mismo cuidado que le ponemos a cada proyecto que entregamos."
       />
     </section>
   );
