@@ -2,6 +2,7 @@
   "nav_inicio":"Inicio",
   "nav_proyectos": "Proyectos",
   "nav_legales": "Legales",
+  "nav_contacto": "Contacto",
   "titulo_proyectos": "Soluciones Entregadas",
   "subtitulo_proyectos": "Casos de éxito donde transformamos la presencia digital en herramientas reales de crecimiento.",
   "proyecto_1_titulo": "Sociedades 360",
@@ -117,7 +118,21 @@
   "beneficios_intuitiva": "Intuitiva",
   "beneficios_experiencia": "Experiencia de Usuario",
   "beneficios_absoluta": "Absoluta",
-  "beneficios_confianza": "Confianza y Soporte"
+  "beneficios_confianza": "Confianza y Soporte",
 
-
+  "legales_volver": "← Volver al sitio",
+  "legales_titulo": "Términos y Privacidad",
+  "legales_actualizado": "Última actualización: 27 de abril, 2026",
+  "legales_sec1_tag": "01. Propiedad",
+  "legales_sec1_titulo": "Derechos de Autor",
+  "legales_sec1_desc": "Todo el ecosistema digital de este sitio —diseño, código, algoritmos y estructura— es propiedad intelectual de Joaquín Flores. La copia, distribución o modificación no autorizada está protegida por leyes internacionales de propiedad intelectual.",
+  "legales_sec2_tag": "02. Transparencia",
+  "legales_sec2_titulo": "Protección de tus Datos",
+  "legales_sec2_desc": "Tu información es tratada bajo principios de confidencialidad estricta. Los datos capturados en el formulario se utilizan exclusivamente para el propósito de cotización y gestión de proyectos. No comparto tu información con terceros ni la utilizo para publicidad no solicitada.",
+  "legales_sec3_tag": "03. Resguardo Legal",
+  "legales_sec3_titulo": "Limitación de Responsabilidad",
+  "legales_sec3_desc": "La entrega de servicios web se realiza bajo estándares técnicos profesionales. El autor no asume responsabilidad por interrupciones de terceros, cambios en políticas de plataformas externas o mal uso del software una vez finalizado el periodo de entrega.",
+  "legales_sec4_tag": "04. Resolución",
+  "legales_sec4_titulo": "Marco Legal",
+  "legales_sec4_desc": "Cualquier discrepancia se resolverá de buena fe entre las partes. De no llegar a un acuerdo, se someterá a la jurisdicción de los tribunales de la Ciudad Autónoma de Buenos Aires, Argentina."
 }

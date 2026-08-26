@@ -2,6 +2,7 @@
   "nav_inicio":"Home",
   "nav_proyectos": "Projects",
   "nav_legales": "Legal",
+  "nav_contacto": "Contact",
   "titulo_proyectos": "Success Stories",
   "subtitulo_proyectos": "A showcase of how we transform digital presence into real growth tools for businesses.",
   "proyecto_1_titulo": "Sociedades 360",
@@ -128,7 +129,21 @@
   "beneficios_intuitiva": "Intuitive",
   "beneficios_experiencia": "Seamless Experience",
   "beneficios_absoluta": "Absolute",
-  "beneficios_confianza": "Trust & Support"
+  "beneficios_confianza": "Trust & Support",
 
-
+  "legales_volver": "← Back to site",
+  "legales_titulo": "Terms & Privacy",
+  "legales_actualizado": "Last updated: April 27, 2026",
+  "legales_sec1_tag": "01. Ownership",
+  "legales_sec1_titulo": "Copyright",
+  "legales_sec1_desc": "This site's entire digital ecosystem —design, code, algorithms, and structure— is the intellectual property of Joaquín Flores. Unauthorized copying, distribution, or modification is protected under international intellectual property law.",
+  "legales_sec2_tag": "02. Transparency",
+  "legales_sec2_titulo": "Protecting Your Data",
+  "legales_sec2_desc": "Your information is handled under strict confidentiality principles. Data collected through the contact form is used exclusively for quoting and project-management purposes. I never share your information with third parties or use it for unsolicited advertising.",
+  "legales_sec3_tag": "03. Legal Safeguard",
+  "legales_sec3_titulo": "Limitation of Liability",
+  "legales_sec3_desc": "Web services are delivered under professional technical standards. The author assumes no responsibility for third-party outages, changes to external platform policies, or misuse of the software after the delivery period has ended.",
+  "legales_sec4_tag": "04. Dispute Resolution",
+  "legales_sec4_titulo": "Legal Framework",
+  "legales_sec4_desc": "Any disagreement will be resolved in good faith between the parties. If no agreement is reached, it will be submitted to the jurisdiction of the courts of the Autonomous City of Buenos Aires, Argentina."
 }
