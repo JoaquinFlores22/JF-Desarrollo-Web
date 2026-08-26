@@ -94,7 +94,7 @@ export function MacbookScroll({ src, showGradient, title, badge, sidePanel }) {
   }, [wrapperOpacity]);
 
   return (
-    <div ref={ref} className="relative flex min-h-[190vh] shrink-0 flex-col items-center [perspective:800px]">
+    <div ref={ref} className="relative flex min-h-[140vh] shrink-0 flex-col items-center [perspective:800px]">
       <div ref={wrapperRef} className="sticky top-16 flex w-full scale-[0.35] transform flex-col items-center justify-start py-0 sm:scale-50 md:scale-100 md:py-10">
         <motion.h2
           style={{ translateY: textTransform, opacity: textOpacity }}
