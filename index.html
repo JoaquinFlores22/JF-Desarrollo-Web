@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <!-- MEJORA: SEO Title más vendedor -->
     <title>Estudio Flores | Sitios Web de Alto Rendimiento para Empresas</title>
     <!-- MEJORA: Descripción orientada a resultados -->
@@ -61,6 +62,12 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
+        /* Acordeón de Casos de Éxito (details nativo, sin JS) */
+        .proj-accordion summary { list-style: none; cursor: pointer; }
+        .proj-accordion summary::-webkit-details-marker { display: none; }
+        .proj-accordion summary .chevron { transition: transform 0.3s; }
+        .proj-accordion[open] summary .chevron { transform: rotate(45deg); }
 </style>
 </head>
 <body class="bg-[#F8F7F4] dark:bg-[#0F0F0F] text-graphite dark:text-white transition-colors duration-500 overflow-x-hidden">
@@ -307,7 +314,7 @@
                             <span data-i18n="serv_basico_feat2">Optimización Full Responsive Premium</span>
                         </li>
                     </ul>
-                    <a href="#contacto" data-service="Landing Page" data-i18n="btn_seleccionar_mant" class="service-btn block text-center py-4 rounded-full border-2 border-black/10 dark:border-white/10 font-black hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">Empezar ahora</a>
+                    <a href="#contacto" data-service="Landing Page" class="service-btn block text-center py-4 rounded-full border-2 border-black/10 dark:border-white/10 font-black hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">Empezar ahora</a>
                 </div>
 
                 <!-- PLAN 2: CORPORATIVO (Destacado) -->
@@ -329,7 +336,7 @@
                             <span class="text-black dark:text-white" data-i18n="serv_multi_feat3">Gestión Autónoma de Contenidos</span>
                         </li>
                     </ul>
-                    <a href="#contacto" data-service="Sitio Multipágina" data-i18n="btn_seleccionar_mant" class="service-btn block text-center py-5 rounded-full bg-accent text-white font-black text-lg hover:brightness-110 shadow-lg shadow-accent/40 transition-all">Elegir Plan Corporativo</a>
+                    <a href="#contacto" data-service="Sitio Multipágina" class="service-btn block text-center py-5 rounded-full bg-accent text-white font-black text-lg hover:brightness-110 shadow-lg shadow-accent/40 transition-all">Elegir Plan Corporativo</a>
                 </div>
 
                 <!-- PLAN 3: MANTENIMIENTO -->
@@ -347,7 +354,7 @@
                             <span data-i18n="serv_mant_feat2">Soporte y Evolución Técnica Prioritaria</span>
                         </li>
                     </ul>
-                    <a href="#contacto" data-service="Mantenimiento" data-i18n="btn_seleccionar_mant" class="service-btn block text-center py-4 rounded-full border-2 border-black/10 dark:border-white/10 font-black hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">Solicitar Alianza</a>
+                    <a href="#contacto" data-service="Mantenimiento" class="service-btn block text-center py-4 rounded-full border-2 border-black/10 dark:border-white/10 font-black hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">Solicitar Alianza</a>
                 </div>
             </div>
         </section>
@@ -356,69 +363,99 @@
 
 
 
-        <!-- SECCIÓN PORTAFOLIO: MÁXIMO IMPACTO -->
-        <section id="proyectos-y-futuro" class="  max-w-6xl mx-auto py-32 px-6">
-            <div class="grid md:grid-cols-12 gap-8">
-                
-                <!-- Tarjeta Principal: Casos de Éxito (Ocupa 7 columnas de 12) -->
-                <div class="md:col-span-7 group relative overflow-hidden bg-white dark:bg-[#2A2A2A] p-12 rounded-[3rem] border border-black/5 dark:border-white/10 shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:shadow-accent/20">
-                    <!-- Decoración de fondo -->
-                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-accent/10 rounded-full blur-3xl group-hover:bg-accent/20 transition-colors"></div>
-                    
-                    <div class="relative z-10">
-                        <div class="mb-8 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent/10 text-accent text-3xl group-hover:scale-110 transition-transform duration-500">
-                            🏆
-                        </div>
-                        
-                        <h3 class="text-4xl font-black mb-6 tracking-tighter" data-i18n="proy_ejecutados">
-                            Casos de <span class="text-gradient">Éxito</span>
-                        </h3>
-                        
-                        <p class="text-lg opacity-60 mb-10 max-w-md leading-relaxed" data-i18n="proy_ejecutados_desc">
-                            No solo entregamos código; entregamos herramientas de crecimiento. Explora cómo hemos ayudado a otros negocios a digitalizarse con éxito.
-                        </p>
-                        
-                        <a href="proyectos.html" class="inline-flex items-center gap-3 bg-graphite dark:bg-white text-white dark:text-graphite px-8 py-4 rounded-2xl font-black hover:bg-accent dark:hover:bg-accent hover:text-white transition-all group/btn">
-                            <span data-i18n="btn_ver_proy">Explorar trabajos</span>
-                            <svg class="w-5 h-5 transition-transform group-hover/btn:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                        </a>
-                    </div>
+        <!-- SECCIÓN PORTAFOLIO: Casos de Éxito (acordeón, misma fuente que AccordionGallery de web/src) -->
+        <section id="proyectos-y-futuro" class="max-w-4xl mx-auto py-32 px-6">
+            <div class="mb-14 flex items-end justify-between gap-8 flex-wrap">
+                <div>
+                    <div class="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent/10 text-accent text-3xl">🏆</div>
+                    <h3 class="text-4xl md:text-5xl font-black tracking-tighter" data-i18n="proy_ejecutados">Casos de Éxito</h3>
                 </div>
+                <p class="text-base opacity-60 max-w-sm leading-relaxed" data-i18n="proy_ejecutados_desc">Mira cómo ayudamos a otros negocios a digitalizar sus procesos con éxito.</p>
+            </div>
 
-                <!-- Tarjeta Secundaria: En Desarrollo (Ocupa 5 columnas de 12) -->
-                <div class="md:col-span-5 relative overflow-hidden bg-gradient-to-br from-accent/5 to-transparent dark:from-white/5 dark:to-transparent p-12 rounded-[3rem] border border-dashed border-black/20 dark:border-white/20 flex flex-col justify-center">
-                    
-                    <div class="relative z-10">
-                        <div class="flex items-center gap-4 mb-8">
-                            <span class="relative flex h-4 w-4">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-4 w-4 bg-accent"></span>
+            <ul class="space-y-4">
+                <li class="glass-card bg-white/60 dark:bg-[#1A1A1A]/70 rounded-3xl border border-black/5 dark:border-white/10 overflow-hidden transition-shadow hover:shadow-xl">
+                    <details name="proyectos-accordion" class="proj-accordion" open>
+                        <summary class="w-full flex items-center justify-between gap-6 px-8 py-6 text-left">
+                            <span class="text-xl md:text-2xl font-black tracking-tight" data-i18n="proyecto_1_titulo">Sociedades 360</span>
+                            <span class="flex items-center gap-4 shrink-0">
+                                <span class="h-1.5 w-12 rounded-full" style="background:#4A6FA5"></span>
+                                <svg class="chevron w-5 h-5" style="color:#4A6FA5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                             </span>
-                            <span class="text-xs font-black uppercase tracking-[0.2em] opacity-50" data-i18n="status_construyendo">Laboratorio Creativo</span>
+                        </summary>
+                        <div class="px-8 pb-8 flex flex-col md:flex-row gap-8 items-start">
+                            <img src="jcl-pantalones/img/sociedades-preview.svg" alt="" class="w-full md:w-48 h-32 object-cover rounded-2xl shrink-0" style="background:rgba(74,111,165,.15)">
+                            <div class="space-y-4 flex-1">
+                                <p class="text-sm opacity-70 leading-relaxed" data-i18n="proyecto_1_desc">Estructura corporativa digital diseñada para facilitar la navegación del cliente y organizar la información clave del negocio.</p>
+                                <a href="https://www.sociedades360.com.ar" target="_blank" rel="noopener noreferrer" class="inline-block text-sm font-bold px-6 py-3 rounded-full border-2 transition-all hover:text-white" style="border-color:#4A6FA5;color:#4A6FA5" onmouseover="this.style.background='#4A6FA5'" onmouseout="this.style.background='transparent'"><span data-i18n="ver_sitio">Visitar sitio</span> →</a>
+                            </div>
                         </div>
+                    </details>
+                </li>
 
-                        <h3 class="text-3xl font-black mb-6 tracking-tighter" data-i18n="prox_lanzamientos">
-                            En <span class="opacity-50 italic">Desarrollo</span>
-                        </h3>
-                        
-                        <p class="text-base opacity-60 mb-8" data-i18n="prox_lanzamientos_desc">
-                            Casos recientes con catálogo, carrito persistente y pedidos coordinados por WhatsApp. Seguimos incorporando proyectos reales al portfolio.
-                        </p>
-
-                        <!-- Mini preview de lo que viene -->
-                        <div class="flex gap-2">
-                            <div class="h-1.5 w-12 bg-accent/30 rounded-full"></div>
-                            <div class="h-1.5 w-8 bg-accent/10 rounded-full"></div>
-                            <div class="h-1.5 w-4 bg-accent/10 rounded-full"></div>
+                <li class="glass-card bg-white/60 dark:bg-[#1A1A1A]/70 rounded-3xl border border-black/5 dark:border-white/10 overflow-hidden transition-shadow hover:shadow-xl">
+                    <details name="proyectos-accordion" class="proj-accordion">
+                        <summary class="w-full flex items-center justify-between gap-6 px-8 py-6 text-left">
+                            <span class="text-xl md:text-2xl font-black tracking-tight" data-i18n="proyecto_5_titulo">Dsok Importado</span>
+                            <span class="flex items-center gap-4 shrink-0">
+                                <span class="h-1.5 w-12 rounded-full" style="background:#D4A537"></span>
+                                <svg class="chevron w-5 h-5" style="color:#D4A537" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="px-8 pb-8 flex flex-col md:flex-row gap-8 items-start">
+                            <img src="jcl-pantalones/img/dsok-preview.svg" alt="" class="w-full md:w-48 h-32 object-cover rounded-2xl shrink-0" style="background:rgba(212,165,55,.15)">
+                            <div class="space-y-4 flex-1">
+                                <p class="text-sm opacity-70 leading-relaxed" data-i18n="proyecto_5_desc">Tienda online de productos importados con una experiencia de compra clara, visual y preparada para crecer.</p>
+                                <a href="https://joaquinflores22.github.io/dsok-importado/" target="_blank" rel="noopener noreferrer" class="inline-block text-sm font-bold px-6 py-3 rounded-full border-2 transition-all hover:text-white" style="border-color:#D4A537;color:#D4A537" onmouseover="this.style.background='#D4A537'" onmouseout="this.style.background='transparent'"><span data-i18n="ver_sitio">Visitar sitio</span> →</a>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!-- Marca de agua de fondo -->
-                    <div class="absolute -bottom-6 -right-6 text-9xl font-black opacity-[0.03] select-none pointer-events-none">
-                        DEV
-                    </div>
-                </div>
+                    </details>
+                </li>
 
+                <li class="glass-card bg-white/60 dark:bg-[#1A1A1A]/70 rounded-3xl border border-black/5 dark:border-white/10 overflow-hidden transition-shadow hover:shadow-xl">
+                    <details name="proyectos-accordion" class="proj-accordion">
+                        <summary class="w-full flex items-center justify-between gap-6 px-8 py-6 text-left">
+                            <span class="text-xl md:text-2xl font-black tracking-tight" data-i18n="proyecto_4_titulo">Remeras Esports</span>
+                            <span class="flex items-center gap-4 shrink-0">
+                                <span class="h-1.5 w-12 rounded-full" style="background:#B08D57"></span>
+                                <svg class="chevron w-5 h-5" style="color:#B08D57" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="px-8 pb-8 flex flex-col md:flex-row gap-8 items-start">
+                            <img src="jcl-pantalones/img/esports-preview.svg" alt="" class="w-full md:w-48 h-32 object-cover rounded-2xl shrink-0" style="background:rgba(176,141,87,.15)">
+                            <div class="space-y-4 flex-1">
+                                <p class="text-sm opacity-70 leading-relaxed" data-i18n="proyecto_4_desc">E-commerce de camisetas esports con catálogo filtrable, selección de talles, carrito persistente y pedidos personalizados coordinados por WhatsApp.</p>
+                                <a href="https://joaquinflores22.github.io/remeras-esports/" target="_blank" rel="noopener noreferrer" class="inline-block text-sm font-bold px-6 py-3 rounded-full border-2 transition-all hover:text-white" style="border-color:#B08D57;color:#B08D57" onmouseover="this.style.background='#B08D57'" onmouseout="this.style.background='transparent'"><span data-i18n="ver_sitio">Visitar sitio</span> →</a>
+                            </div>
+                        </div>
+                    </details>
+                </li>
+
+                <li class="glass-card bg-white/60 dark:bg-[#1A1A1A]/70 rounded-3xl border border-black/5 dark:border-white/10 overflow-hidden transition-shadow hover:shadow-xl">
+                    <details name="proyectos-accordion" class="proj-accordion">
+                        <summary class="w-full flex items-center justify-between gap-6 px-8 py-6 text-left">
+                            <span class="text-xl md:text-2xl font-black tracking-tight" data-i18n="proyecto_6_titulo">JCL Pantalones</span>
+                            <span class="flex items-center gap-4 shrink-0">
+                                <span class="h-1.5 w-12 rounded-full" style="background:#C1440E"></span>
+                                <svg class="chevron w-5 h-5" style="color:#C1440E" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="px-8 pb-8 flex flex-col md:flex-row gap-8 items-start">
+                            <img src="jcl-pantalones/img/jcl-preview.svg" alt="" class="w-full md:w-48 h-32 object-cover rounded-2xl shrink-0" style="background:rgba(193,68,14,.15)">
+                            <div class="space-y-4 flex-1">
+                                <p class="text-sm opacity-70 leading-relaxed" data-i18n="proyecto_6_desc">Catálogo multipágina de pantalones y shorts unisex, con carrito persistente y pedidos completos enviados por WhatsApp.</p>
+                                <a href="jcl-pantalones/" class="inline-block text-sm font-bold px-6 py-3 rounded-full border-2 transition-all hover:text-white" style="border-color:#C1440E;color:#C1440E" onmouseover="this.style.background='#C1440E'" onmouseout="this.style.background='transparent'"><span data-i18n="ver_catalogo">Ver catálogo</span> →</a>
+                            </div>
+                        </div>
+                    </details>
+                </li>
+            </ul>
+
+            <div class="mt-10 text-center">
+                <a href="proyectos.html" class="inline-flex items-center gap-3 bg-graphite dark:bg-white text-white dark:text-graphite px-8 py-4 rounded-2xl font-black hover:bg-accent dark:hover:bg-accent hover:text-white transition-all group/btn">
+                    <span data-i18n="btn_ver_proy">Explorar trabajos</span>
+                    <svg class="w-5 h-5 transition-transform group-hover/btn:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
             </div>
         </section>
 
@@ -468,6 +505,12 @@
                 </div>
             </section>
 
+
+        <!-- Bookend antes del contacto (eco del hero, ClosingCta de web/src) -->
+        <section class="max-w-4xl mx-auto px-6 py-16 text-center">
+            <p class="text-xs font-black uppercase tracking-[.2em] text-accent mb-6">¿Hablamos?</p>
+            <h2 class="text-3xl md:text-5xl font-black tracking-tighter leading-tight">Tu próximo proyecto<br><span class="text-gradient">empieza acá.</span></h2>
+        </section>
 
         <!-- formularios/contacto -->
 
