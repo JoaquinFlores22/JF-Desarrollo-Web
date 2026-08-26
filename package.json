@@ -12,10 +12,5 @@
   "type": "commonjs",
   "dependencies": {
     "nodemailer": "^6.9.0"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.5.0",
-    "postcss": "^8.5.12",
-    "tailwindcss": "^4.2.4"
   }
 }
