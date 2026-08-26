@@ -26,17 +26,19 @@ import {
 // "motion/react") del MacbookScroll de Aceternity UI:
 // https://ui.aceternity.com/components/macbook-scroll
 //
-// Única diferencia deliberada respecto al original: ahí la pantalla viaja
-// hasta 1500px de translateY a lo largo de TODO el scroll y termina tapada
-// por el teclado (perdida de vista, sin nada cerca que la explique). Acá el
-// translate se frena apenas la tapa termina de abrirse, así la imagen queda
-// asentada y visible — el resto (proporciones, teclado, escalado mobile) es
-// igual al original.
+// Diferencias deliberadas respecto al original:
+// 1) Ahi la pantalla viaja hasta 1500px de translateY a lo largo de TODO el
+//    scroll y termina tapada por el teclado (perdida de vista, sin nada
+//    cerca que la explique). Aca el translate se frena apenas la tapa
+//    termina de abrirse, asi la imagen queda asentada y visible.
+// 2) Fase nueva: una vez asentada, la laptop se desliza a la izquierda y un
+//    panel lateral (sidePanel) entra desde la derecha -- para meter ahi
+//    info/copy sin tapar la imagen ni amontonar todo abajo.
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export function MacbookScroll({ src, showGradient, title, badge }) {
+export function MacbookScroll({ src, showGradient, title, badge, sidePanel }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const [isMobile, setIsMobile] = useState(false);
@@ -52,35 +54,66 @@ export function MacbookScroll({ src, showGradient, title, badge }) {
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
+  // Fase 2 (0.45 -> 0.68): la laptop ya esta abierta y quieta; se corre a la
+  // izquierda mientras el panel lateral entra desde la derecha.
+  const laptopSlideX = useTransform(scrollYProgress, [0.45, 0.68], [0, isMobile ? 0 : -130]);
+  const panelOpacity = useTransform(scrollYProgress, [0.45, 0.68], [0, 1]);
+  const panelX = useTransform(scrollYProgress, [0.45, 0.68], [isMobile ? 0 : 120, 0]);
+  const panelY = useTransform(scrollYProgress, [0.45, 0.68], [isMobile ? 30 : 0, 0]);
+
+  // panelOpacity.get() calcula bien (confirmado con logs), pero el binding
+  // declarativo style={{opacity: panelOpacity}} no llega a pintarse en este
+  // nodo -- se aplica a mano via subscribe/on('change') como salida segura.
+  const panelRef = useRef(null);
+  useEffect(() => {
+    if (panelRef.current) panelRef.current.style.opacity = String(panelOpacity.get());
+    return panelOpacity.on('change', (v) => {
+      if (panelRef.current) panelRef.current.style.opacity = String(v);
+    });
+  }, [panelOpacity]);
+
   return (
-    <div
-      ref={ref}
-      className="flex min-h-[170vh] shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100 md:py-40"
-    >
-      <motion.h2
-        style={{ translateY: textTransform, opacity: textOpacity }}
-        className="mb-20 text-center text-3xl font-black tracking-tighter text-graphite dark:text-white"
-      >
-        {title}
-      </motion.h2>
+    <div ref={ref} className="relative flex min-h-[190vh] shrink-0 flex-col items-center [perspective:800px]">
+      <div className="sticky top-16 flex w-full scale-[0.35] transform flex-col items-center justify-start py-0 sm:scale-50 md:scale-100 md:py-10">
+        <motion.h2
+          style={{ translateY: textTransform, opacity: textOpacity }}
+          className="mb-20 text-center text-3xl font-black tracking-tighter text-graphite dark:text-white"
+        >
+          {title}
+        </motion.h2>
 
-      <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} />
+        <div className="flex flex-col items-center md:flex-row md:items-center md:justify-center md:gap-x-16">
+          <motion.div style={{ x: laptopSlideX }} className="flex flex-col items-center">
+            <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} />
 
-      <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
-        <div className="relative h-10 w-full">
-          <div className="absolute inset-x-0 mx-auto h-4 w-[80%] bg-[#050505]" />
+            <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
+              <div className="relative h-10 w-full">
+                <div className="absolute inset-x-0 mx-auto h-4 w-[80%] bg-[#050505]" />
+              </div>
+              <div className="relative flex">
+                <div className="mx-auto h-full w-[10%] overflow-hidden"><SpeakerGrid /></div>
+                <div className="mx-auto h-full w-[80%]"><Keypad /></div>
+                <div className="mx-auto h-full w-[10%] overflow-hidden"><SpeakerGrid /></div>
+              </div>
+              <Trackpad />
+              <div className="absolute inset-x-0 bottom-0 mx-auto h-2 w-20 rounded-tl-3xl rounded-tr-3xl bg-gradient-to-t from-[#272729] to-[#050505]" />
+              {showGradient && (
+                <div className="absolute inset-x-0 bottom-0 z-50 h-40 w-full bg-gradient-to-t from-white via-white to-transparent dark:from-black dark:via-black" />
+              )}
+              {badge && <div className="absolute bottom-4 left-4">{badge}</div>}
+            </div>
+          </motion.div>
+
+          {sidePanel && (
+            <motion.div
+              ref={panelRef}
+              style={{ x: panelX, y: panelY, opacity: 0 }}
+              className="mt-12 w-full max-w-sm shrink-0 md:mt-0"
+            >
+              {sidePanel}
+            </motion.div>
+          )}
         </div>
-        <div className="relative flex">
-          <div className="mx-auto h-full w-[10%] overflow-hidden"><SpeakerGrid /></div>
-          <div className="mx-auto h-full w-[80%]"><Keypad /></div>
-          <div className="mx-auto h-full w-[10%] overflow-hidden"><SpeakerGrid /></div>
-        </div>
-        <Trackpad />
-        <div className="absolute inset-x-0 bottom-0 mx-auto h-2 w-20 rounded-tl-3xl rounded-tr-3xl bg-gradient-to-t from-[#272729] to-[#050505]" />
-        {showGradient && (
-          <div className="absolute inset-x-0 bottom-0 z-50 h-40 w-full bg-gradient-to-t from-white via-white to-transparent dark:from-black dark:via-black" />
-        )}
-        {badge && <div className="absolute bottom-4 left-4">{badge}</div>}
       </div>
     </div>
   );
