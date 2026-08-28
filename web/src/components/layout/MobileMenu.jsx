@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { useLanguage } from '../../context/LanguageContext';
 
-export default function MobileMenu({ open }) {
+export default function MobileMenu({ open, onNavigate }) {
   const { toggleTheme } = useTheme();
   const { lang, setLang, t } = useLanguage();
 
@@ -9,10 +10,9 @@ export default function MobileMenu({ open }) {
 
   return (
     <div className="md:hidden absolute top-24 left-6 right-6 bg-white/95 dark:bg-[#1A1A1A]/95 backdrop-blur-2xl rounded-3xl p-8 flex flex-col gap-6 text-center font-bold shadow-2xl border border-black/5 dark:border-white/10 animate-reveal-up">
-      <a href="/" className="text-xl hover:text-accent transition-colors">{t('nav_inicio')}</a>
-      <a href="/proyectos.html" className="text-xl hover:text-accent transition-colors">{t('nav_proyectos')}</a>
-      <a href="/casos.html" className="text-xl hover:text-accent transition-colors">{t('nav_casos')}</a>
-      <a href="#contacto" className="text-xl hover:text-accent transition-colors">{t('nav_contacto')}</a>
+      <Link to="/" onClick={onNavigate} className="text-xl hover:text-accent transition-colors">{t('nav_inicio')}</Link>
+      <Link to="/proyectos" onClick={onNavigate} className="text-xl hover:text-accent transition-colors">{t('nav_proyectos')}</Link>
+      <Link to="/#contacto" onClick={onNavigate} className="text-xl hover:text-accent transition-colors">{t('nav_contacto')}</Link>
       <div className="h-px bg-black/10 dark:bg-white/10 my-2" />
       <div className="flex justify-center gap-6">
         <button type="button" aria-label="Cambiar entre modo claro y oscuro" onClick={toggleTheme} className="p-4 bg-black/5 dark:bg-white/5 rounded-2xl text-2xl">🌙</button>

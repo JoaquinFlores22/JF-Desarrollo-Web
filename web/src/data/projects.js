@@ -1,21 +1,32 @@
-// Fuente única para el AccordionGallery. El color de cada proyecto es la
-// identidad propia de ESA marca (nunca la reciclamos entre clientes) — el
-// shell del acordeón se mantiene neutro/oscuro para todos, solo la barra,
-// el wash del panel expandido y el CTA usan el acento de cada uno.
+// Fuente única de proyectos: la usan el AccordionGallery del home y la
+// página /proyectos. El color de cada proyecto es la identidad propia de
+// ESA marca (nunca se recicla entre clientes); el shell se mantiene neutro.
 export const projects = [
   {
     id: 'sociedades360',
     nameKey: 'proyecto_1_titulo',
     descKey: 'proyecto_1_desc',
+    catKey: 'proyecto_1_cat',
     accent: '#4A6FA5',
     mockup: '/jcl-pantalones/img/sociedades-preview.svg',
     href: 'https://www.sociedades360.com.ar',
     external: true,
   },
   {
+    id: 'jcl',
+    nameKey: 'proyecto_6_titulo',
+    descKey: 'proyecto_6_desc',
+    catKey: 'proyecto_6_cat',
+    accent: '#C1440E',
+    mockup: '/jcl-pantalones/img/jcl-preview.svg',
+    href: '/jcl-pantalones/',
+    external: false,
+  },
+  {
     id: 'dsok',
     nameKey: 'proyecto_5_titulo',
     descKey: 'proyecto_5_desc',
+    catKey: 'proyecto_5_cat',
     accent: '#D4A537',
     mockup: '/jcl-pantalones/img/dsok-preview.svg',
     href: 'https://joaquinflores22.github.io/dsok-importado/',
@@ -25,18 +36,20 @@ export const projects = [
     id: 'esports',
     nameKey: 'proyecto_4_titulo',
     descKey: 'proyecto_4_desc',
+    catKey: 'proyecto_4_cat',
     accent: '#B08D57',
     mockup: '/jcl-pantalones/img/esports-preview.svg',
     href: 'https://joaquinflores22.github.io/remeras-esports/',
     external: true,
   },
   {
-    id: 'jcl',
-    nameKey: 'proyecto_6_titulo',
-    descKey: 'proyecto_6_desc',
-    accent: '#C1440E',
-    mockup: '/jcl-pantalones/img/jcl-preview.svg',
-    href: '/jcl-pantalones/',
-    external: false,
+    id: 'dance',
+    nameKey: 'proyecto_2_titulo',
+    descKey: 'proyecto_2_desc',
+    catKey: 'proyecto_2_cat',
+    accent: '#8B5CF6',
+    mockup: '/jcl-pantalones/img/dance-preview.svg',
+    href: 'https://joaquinflores22.github.io/Exclusive-Dance-Studio/',
+    external: true,
   },
 ];

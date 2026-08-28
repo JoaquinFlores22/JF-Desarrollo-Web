@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '../../../context/LanguageContext';
 import { projects } from '../../../data/projects';
 import AccordionItem from './AccordionItem';
@@ -36,15 +37,15 @@ export default function AccordionGallery() {
       </ul>
 
       <div className="mt-10 text-center">
-        <a
-          href="/proyectos.html"
+        <Link
+          to="/proyectos"
           className="inline-flex items-center gap-3 bg-graphite dark:bg-white text-white dark:text-graphite px-8 py-4 rounded-2xl font-black hover:bg-accent dark:hover:bg-accent hover:text-white transition-all group/btn"
         >
           <span>{t('btn_ver_proy')}</span>
           <svg className="w-5 h-5 transition-transform group-hover/btn:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
-        </a>
+        </Link>
       </div>
     </section>
   );

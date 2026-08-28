@@ -1,5 +1,4 @@
-// Portado tal cual de js/index.js (ahora en web/public/js/index.js), que
-// sigue siendo la fuente viva para proyectos.html/casos.html/legales.html.
+// Rangos de referencia para la calculadora de presupuesto del home.
 export const budgetRanges = {
   landing: [180000, 260000],
   corporate: [320000, 480000],

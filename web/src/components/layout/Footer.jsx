@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 
 export default function Footer() {
@@ -17,9 +18,10 @@ export default function Footer() {
           <div>
             <h4 className="font-bold mb-6">{t('footer_nav')}</h4>
             <ul className="space-y-4 text-sm opacity-60">
-              <li><a href="/" className="hover:text-blue-400 transition">{t('nav_inicio')}</a></li>
-              <li><a href="/proyectos.html" className="hover:text-blue-400 transition">{t('nav_proyectos')}</a></li>
-              <li><a href="/legales.html" className="hover:text-blue-400 transition">{t('nav_legales')}</a></li>
+              <li><Link to="/" className="hover:text-blue-400 transition">{t('nav_inicio')}</Link></li>
+              <li><Link to="/proyectos" className="hover:text-blue-400 transition">{t('nav_proyectos')}</Link></li>
+              <li><Link to="/#contacto" className="hover:text-blue-400 transition">{t('nav_contacto')}</Link></li>
+              <li><Link to="/legales" className="hover:text-blue-400 transition">{t('nav_legales')}</Link></li>
             </ul>
           </div>
 

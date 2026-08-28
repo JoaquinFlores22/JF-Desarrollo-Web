@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { useLanguage } from '../../context/LanguageContext';
 import MobileMenu from './MobileMenu';
@@ -21,15 +22,14 @@ export default function Nav() {
     <nav className="fixed w-full z-50 top-6 px-6">
       <div className="max-w-5xl mx-auto">
         <div className="bg-[#1A1A1A]/95 backdrop-blur-2xl rounded-3xl border border-black/5 dark:border-white/10 px-6 py-4 flex justify-between items-center shadow-2xl shadow-black/5">
-          <a href="/" aria-label="Estudio Flores — inicio" className="text-2xl font-black tracking-tighter italic group text-white">
+          <Link to="/" aria-label="Estudio Flores — inicio" className="text-2xl font-black tracking-tighter italic group text-white">
             JF<span className="text-gradient group-hover:animate-pulse">.</span>
-          </a>
+          </Link>
 
           <div className="hidden md:flex items-center gap-8 text-sm font-bold tracking-tight text-white">
-            <a href="/" className={NAV_LINK_CLASS}>{t('nav_inicio')}</a>
-            <a href="/proyectos.html" className={NAV_LINK_CLASS}>{t('nav_proyectos')}</a>
-            <a href="/casos.html" className={NAV_LINK_CLASS}>{t('nav_casos')}</a>
-            <a href="#contacto" className={NAV_LINK_CLASS}>{t('nav_contacto')}</a>
+            <Link to="/" className={NAV_LINK_CLASS}>{t('nav_inicio')}</Link>
+            <Link to="/proyectos" className={NAV_LINK_CLASS}>{t('nav_proyectos')}</Link>
+            <Link to="/#contacto" className={NAV_LINK_CLASS}>{t('nav_contacto')}</Link>
 
             <div className="h-6 w-px bg-white/10" />
 
@@ -81,7 +81,7 @@ export default function Nav() {
         </div>
       </div>
 
-      <MobileMenu open={mobileOpen} />
+      <MobileMenu open={mobileOpen} onNavigate={() => setMobileOpen(false)} />
     </nav>
   );
 }
