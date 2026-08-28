@@ -13,6 +13,16 @@ export const projects = [
     external: true,
   },
   {
+    id: 'cambio',
+    nameKey: 'proyecto_7_titulo',
+    descKey: 'proyecto_7_desc',
+    catKey: 'proyecto_7_cat',
+    accent: '#16A672',
+    mockup: '/jcl-pantalones/img/cambio-preview.svg',
+    href: 'https://joaquinflores22.github.io/cambio/',
+    external: true,
+  },
+  {
     id: 'jcl',
     nameKey: 'proyecto_6_titulo',
     descKey: 'proyecto_6_desc',
