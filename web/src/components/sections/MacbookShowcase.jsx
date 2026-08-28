@@ -1,15 +1,15 @@
 import { MacbookScroll } from '../ui/macbook-scroll';
-import MacLockScreen from '../ui/mac-lock-screen';
 import PhoneFrame from '../ui/phone-frame';
 import SociedadesPhone from '../ui/sociedades-phone';
+import SociedadesScreen from '../ui/sociedades-screen';
 import TextType from '../ui/text-type';
 import SplitFlapText from '../ui/split-flap-text';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 export default function MacbookShowcase() {
-  // El celular vive suelto al lado del Mac, mostrando la home de
-  // sociedades360.com.ar en mobile -- concreta el "100% RESPONSIVE" que el
-  // SplitFlapText de abajo solo promete en texto, con trabajo real nuestro.
+  // Mac y celular muestran la MISMA web (sociedades360.com.ar) adaptada a
+  // cada pantalla -- el "100% RESPONSIVE" del SplitFlapText hecho literal,
+  // con trabajo real nuestro en vez de una pantalla generica.
   const phoneRevealRef = useScrollReveal();
 
   return (
@@ -21,7 +21,7 @@ export default function MacbookShowcase() {
               Cuidamos cada detalle, <br /> hasta el que no ves.
             </span>
           }
-          screen={<MacLockScreen />}
+          screen={<SociedadesScreen />}
           showGradient={false}
         />
 
