@@ -8,7 +8,9 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
           <div className="col-span-1 md:col-span-2">
-            <div className="text-2xl font-black italic mb-6">JF<span className="text-blue-500">.</span></div>
+            <div className="text-2xl font-black italic mb-6" aria-label="Estudio Flores">
+              JF<span className="text-blue-500">.</span>
+            </div>
             <p className="opacity-60 max-w-sm">{t('footer_desc')}</p>
           </div>
 

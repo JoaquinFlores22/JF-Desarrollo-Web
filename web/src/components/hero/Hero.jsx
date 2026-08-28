@@ -16,7 +16,7 @@ export default function Hero() {
           as="div"
           size="hero"
           trigger="mount"
-          lines={['JOAQUÍN', <span className="text-gradient" key="flores">FLORES.</span>]}
+          lines={['ESTUDIO', <span className="text-gradient" key="flores">FLORES.</span>]}
         />
 
         <h1 className="text-2xl md:text-[1.75rem] font-black tracking-tight leading-snug max-w-xl">
