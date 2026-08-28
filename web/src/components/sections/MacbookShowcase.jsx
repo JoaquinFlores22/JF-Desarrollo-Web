@@ -1,13 +1,15 @@
 import { MacbookScroll } from '../ui/macbook-scroll';
 import MacLockScreen from '../ui/mac-lock-screen';
 import PhoneFrame from '../ui/phone-frame';
+import SociedadesPhone from '../ui/sociedades-phone';
 import TextType from '../ui/text-type';
 import SplitFlapText from '../ui/split-flap-text';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 export default function MacbookShowcase() {
-  // El celular vive suelto al lado del Mac -- completa en la practica el
-  // "100% RESPONSIVE" que el SplitFlapText de abajo solo promete en texto.
+  // El celular vive suelto al lado del Mac, mostrando la home de
+  // sociedades360.com.ar en mobile -- concreta el "100% RESPONSIVE" que el
+  // SplitFlapText de abajo solo promete en texto, con trabajo real nuestro.
   const phoneRevealRef = useScrollReveal();
 
   return (
@@ -38,12 +40,12 @@ export default function MacbookShowcase() {
           className="pointer-events-none absolute top-[calc(50%+280px)] left-[calc(50%+312px)] hidden w-24 md:block lg:w-28"
         >
           <PhoneFrame>
-            <MacLockScreen compact initials="JF" />
+            <SociedadesPhone />
           </PhoneFrame>
         </div>
       </div>
 
-      <div className="mt-8 md:mt-12 max-w-2xl mx-auto px-6 text-center">
+      <div className="mt-24 md:mt-40 max-w-2xl mx-auto px-6 text-center">
         <TextType
           as="p"
           text={[
