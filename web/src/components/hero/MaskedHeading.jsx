@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, ScrollTrigger } from '../../lib/gsap';
+import { gsap } from '../../lib/gsap';
 import { useLanguage } from '../../context/LanguageContext';
 
 const SIZE_CLASSES = {
@@ -11,9 +11,16 @@ const SIZE_CLASSES = {
 /**
  * Reveal de máscara para titulares grandes, al estilo React Bits.
  * - trigger="mount": anima una vez al montar (Hero, primera pasada).
- * - trigger="scroll": scrubbed contra el scroll, con 3 fases en un eje
- *   (reveal-in 0-30%, hold/pin 30-70% si pin=true, mask-close 70-100%) —
- *   para no cortar de golpe al salir de la vista.
+ * - trigger="scroll" + pin=true: scrubbed contra un rango fijo de scroll,
+ *   con la seccion clavada en pantalla (reveal-in / hold / mask-close).
+ * - trigger="scroll" sin pin: reveal de una sola vez al entrar en viewport,
+ *   sin fase de cierre. Un cierre scrubbeado necesitaria medir en pixeles
+ *   donde termina de salir la seccion del viewport, y ese numero se
+ *   desincroniza en cuanto algo mas arriba en la pagina cambia de alto
+ *   despues del montaje (fuentes, imagenes, otras animaciones) — quedaba
+ *   clampeado en invisible mucho antes de que la seccion llegara al borde.
+ *   El corte natural del borde del navegador al salir de vista es normal
+ *   y no hace falta disimularlo.
  */
 export default function MaskedHeading({
   lines,
@@ -31,7 +38,11 @@ export default function MaskedHeading({
       const spans = gsap.utils.toArray('[data-mask-line]', containerRef.current);
       if (!spans.length) return;
 
-      gsap.set(spans, { yPercent: 110 });
+      // y:0 explicito -- sin esto, un remanente de "y" en pixeles de un
+      // gsap.set/to previo (p.ej. el segundo montaje de React StrictMode
+      // en dev) queda cacheado y se combina con el nuevo yPercent, dejando
+      // el span desplazado aunque yPercent llegue a 0.
+      gsap.set(spans, { y: 0, yPercent: 110 });
 
       if (trigger === 'mount') {
         gsap.to(spans, {
@@ -45,13 +56,29 @@ export default function MaskedHeading({
       }
 
       // trigger === 'scroll'
+      if (!pin) {
+        gsap.to(spans, {
+          yPercent: 0,
+          duration: 1.1,
+          ease: 'power4.out',
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        });
+        return;
+      }
+
+      // trigger === 'scroll' + pin: pineado, con rango fijo de scroll.
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
           end: '+=60%',
           scrub: true,
-          pin: pin || undefined,
+          pin: true,
           pinSpacing: false,
         },
       });
@@ -60,8 +87,6 @@ export default function MaskedHeading({
         .to(containerRef.current, { autoAlpha: 1 }, 0)
         .to(spans, { yPercent: -110, stagger: 0.08, ease: 'power2.in' }, 0.7)
         .to(containerRef.current, { scale: 0.92, autoAlpha: 0, ease: 'power2.in' }, 0.7);
-
-      return () => ScrollTrigger.getAll().forEach((st) => st.kill());
     },
     { scope: containerRef, dependencies: [lang, trigger, pin] },
   );

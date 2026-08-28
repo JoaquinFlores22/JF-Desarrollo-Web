@@ -37,7 +37,7 @@ function cn(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export function MacbookScroll({ src, showGradient, title, badge }) {
+export function MacbookScroll({ src, screen, showGradient, title, badge }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const [isMobile, setIsMobile] = useState(false);
@@ -67,7 +67,7 @@ export function MacbookScroll({ src, showGradient, title, badge }) {
         {title}
       </motion.h2>
 
-      <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} bezelOpacity={bezelOpacity} />
+      <Lid src={src} screen={screen} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} bezelOpacity={bezelOpacity} />
 
       <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
         <div className="relative h-10 w-full">
@@ -89,7 +89,7 @@ export function MacbookScroll({ src, showGradient, title, badge }) {
   );
 }
 
-function Lid({ scaleX, scaleY, rotate, translate, src, bezelOpacity }) {
+function Lid({ scaleX, scaleY, rotate, translate, src, screen, bezelOpacity }) {
   const bezelRef = useRef(null);
   useEffect(() => {
     if (!bezelOpacity) return;
@@ -129,8 +129,12 @@ function Lid({ scaleX, scaleY, rotate, translate, src, bezelOpacity }) {
         className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2"
       >
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
-        {src && (
-          <img src={src} alt="" className="absolute inset-0 h-full w-full rounded-lg object-cover object-left-top" />
+        {screen ? (
+          <div className="absolute inset-0 h-full w-full rounded-lg">{screen}</div>
+        ) : (
+          src && (
+            <img src={src} alt="" className="absolute inset-0 h-full w-full rounded-lg object-cover object-left-top" />
+          )
         )}
       </motion.div>
     </div>

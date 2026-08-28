@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLanguage } from '../../../context/LanguageContext';
 import { projects } from '../../../data/projects';
 import AccordionItem from './AccordionItem';
+import BrowserBar from '../../ui/browser-bar';
 
 export default function AccordionGallery() {
   const { t } = useLanguage();
@@ -17,6 +18,10 @@ export default function AccordionGallery() {
           </h3>
         </div>
         <p className="text-base opacity-60 max-w-sm leading-relaxed">{t('proy_ejecutados_desc')}</p>
+      </div>
+
+      <div className="mb-14">
+        <BrowserBar />
       </div>
 
       <ul className="space-y-4">

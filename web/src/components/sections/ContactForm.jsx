@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useMagneticHover } from '../../hooks/useMagneticHover';
+import LeadNotification from '../ui/lead-notification';
 
 const INITIAL = { servicio: '', nombre: '', email: '', telefono: '', mensaje: '' };
 
@@ -24,7 +25,8 @@ export default function ContactForm({ selectedService, onSelectService }) {
   };
 
   return (
-    <section id="contacto" className="max-w-3xl mx-auto py-24 px-6">
+    <section id="contacto" className="relative max-w-3xl mx-auto py-24 px-6">
+      <LeadNotification />
       <div className="bg-white/40 dark:bg-[#2A2A2A]/40 backdrop-blur-2xl p-10 rounded-[2.5rem] border border-black/5 dark:border-white/10 shadow-xl">
         <h2 className="text-4xl font-black mb-2 text-center tracking-tighter">{t('form_titulo')}</h2>
         <p className="text-center opacity-60 mb-10">{t('form_subtitulo')}</p>

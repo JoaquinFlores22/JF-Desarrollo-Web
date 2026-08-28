@@ -1,9 +1,10 @@
 import { useLanguage } from '../../context/LanguageContext';
 import { useMagneticHover } from '../../hooks/useMagneticHover';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
+import ScoreGauge from '../ui/score-gauge';
 
 const STATS = [
-  { valueKey: 'beneficios_maxima', labelKey: 'beneficios_velocidad' },
+  { valueKey: 'beneficios_maxima', labelKey: 'beneficios_velocidad', gauge: 98 },
   { valueKey: 'beneficios_google', labelKey: 'beneficios_posicionamiento' },
   { valueKey: 'beneficios_intuitiva', labelKey: 'beneficios_experiencia' },
   { valueKey: 'beneficios_absoluta', labelKey: 'beneficios_confianza' },
@@ -47,12 +48,18 @@ export default function BenefitsBand() {
           <div className="my-10 h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
           <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {STATS.map((stat) => (
-              <div className="group" key={stat.valueKey}>
-                <div className="text-3xl font-black text-white group-hover:text-accent transition-colors">{t(stat.valueKey)}</div>
-                <div className="text-[11px] uppercase opacity-60 tracking-[0.2em] mt-2 font-bold text-white">{t(stat.labelKey)}</div>
-              </div>
-            ))}
+            {STATS.map((stat) =>
+              stat.gauge ? (
+                <div className="group flex justify-center" key={stat.valueKey}>
+                  <ScoreGauge value={stat.gauge} label={t(stat.labelKey)} />
+                </div>
+              ) : (
+                <div className="group" key={stat.valueKey}>
+                  <div className="text-3xl font-black text-white group-hover:text-accent transition-colors">{t(stat.valueKey)}</div>
+                  <div className="text-[11px] uppercase opacity-60 tracking-[0.2em] mt-2 font-bold text-white">{t(stat.labelKey)}</div>
+                </div>
+              ),
+            )}
           </div>
         </div>
       </div>
