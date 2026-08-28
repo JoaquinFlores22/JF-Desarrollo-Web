@@ -28,7 +28,7 @@ export default function Nav() {
           <div className="hidden md:flex items-center gap-8 text-sm font-bold tracking-tight text-white">
             <a href="/" className={NAV_LINK_CLASS}>{t('nav_inicio')}</a>
             <a href="/proyectos.html" className={NAV_LINK_CLASS}>{t('nav_proyectos')}</a>
-            <a href="/casos.html" className={NAV_LINK_CLASS}>Casos</a>
+            <a href="/casos.html" className={NAV_LINK_CLASS}>{t('nav_casos')}</a>
             <a href="#contacto" className={NAV_LINK_CLASS}>{t('nav_contacto')}</a>
 
             <div className="h-6 w-px bg-white/10" />

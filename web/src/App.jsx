@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import Nav from './components/layout/Nav';
 import Footer from './components/layout/Footer';
 import FloatingWhatsApp from './components/layout/FloatingWhatsApp';
@@ -37,6 +38,7 @@ export default function App() {
 
       <Footer />
       <FloatingWhatsApp />
+      <Analytics />
     </>
   );
 }

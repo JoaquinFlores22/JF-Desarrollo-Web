@@ -6,20 +6,24 @@ export default function Hero() {
 
   return (
     <section className="grid md:grid-cols-2 gap-16 items-center">
-      <div className="space-y-8">
+      <div className="space-y-6">
         <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent font-bold text-xs uppercase border border-accent/20">
           <span className="animate-ping h-2 w-2 rounded-full bg-accent" />
-          Agenda abierta para nuevos proyectos
+          {t('hero_badge')}
         </span>
 
         <MaskedHeading
-          as="h1"
+          as="div"
           size="hero"
           trigger="mount"
           lines={['JOAQUÍN', <span className="text-gradient" key="flores">FLORES.</span>]}
         />
 
-        <p className="text-xl font-light max-w-lg opacity-80">{t('hero_desc')}</p>
+        <h1 className="text-2xl md:text-[1.75rem] font-black tracking-tight leading-snug max-w-xl">
+          {t('hero_h1')}
+        </h1>
+
+        <p className="text-lg font-light max-w-lg opacity-70">{t('hero_desc')}</p>
       </div>
 
       <div className="relative">

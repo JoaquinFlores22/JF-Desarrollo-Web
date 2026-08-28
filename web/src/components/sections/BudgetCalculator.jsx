@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { budgetRanges, budgetTypeLabels, budgetExtras } from '../../data/budgetRanges';
 import { useMagneticHover } from '../../hooks/useMagneticHover';
+import { waHref } from '../../lib/contact';
 
 export default function BudgetCalculator() {
   const { ref: magneticRef, onMouseMove, onMouseLeave } = useMagneticHover();
@@ -15,7 +16,7 @@ export default function BudgetCalculator() {
 
     const extraLabel = budgetExtras.find((e) => e.value === extraValue)?.label ?? '';
     const message = `Hola, Joaquín. Estimé un proyecto de ${budgetTypeLabels[type]} con ${extraLabel}. Quiero conversar el presupuesto.`;
-    const waLink = `https://wa.me/541169024270?text=${encodeURIComponent(message)}`;
+    const waLink = waHref(message);
 
     return { rangeText, waLink };
   }, [type, extra]);

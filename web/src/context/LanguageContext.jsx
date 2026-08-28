@@ -8,8 +8,11 @@ const LanguageContext = createContext(null);
 
 function getInitialLang() {
   if (typeof window === 'undefined') return 'es';
-  const saved = localStorage.getItem('lang');
-  return saved === 'en' ? 'en' : 'es';
+  try {
+    return localStorage.getItem('lang') === 'en' ? 'en' : 'es';
+  } catch {
+    return 'es';
+  }
 }
 
 export function LanguageProvider({ children }) {
@@ -17,7 +20,11 @@ export function LanguageProvider({ children }) {
 
   const setLang = (l) => {
     setLangState(l);
-    localStorage.setItem('lang', l);
+    try {
+      localStorage.setItem('lang', l);
+    } catch {
+      /* modo privado: no se recuerda el idioma, nada más */
+    }
   };
 
   // Fallback a la propia key: un typo nunca renderiza vacío, se nota enseguida.

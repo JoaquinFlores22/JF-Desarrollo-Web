@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useMagneticHover } from '../../hooks/useMagneticHover';
+import { waHref } from '../../lib/contact';
 import LeadNotification from '../ui/lead-notification';
 
 const INITIAL = { servicio: '', nombre: '', email: '', telefono: '', mensaje: '' };
@@ -9,7 +10,9 @@ export default function ContactForm({ selectedService, onSelectService }) {
   const { t } = useLanguage();
   const { ref: magneticRef, onMouseMove, onMouseLeave } = useMagneticHover();
   const [form, setForm] = useState(INITIAL);
-  const [sent, setSent] = useState(false);
+  // Guardamos el link ya armado: si el navegador bloqueó el popup, el
+  // visitante todavía puede abrirlo a mano y no perdemos el lead.
+  const [sentHref, setSentHref] = useState('');
 
   const servicio = selectedService || form.servicio;
 
@@ -18,10 +21,9 @@ export default function ContactForm({ selectedService, onSelectService }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const message = `Hola, Joaquín. Soy ${form.nombre}. Me interesa: ${servicio}. Mi WhatsApp es ${form.telefono || 'a confirmar'} y mi email es ${form.email}. ${form.mensaje || ''}`;
-    window.open(`https://wa.me/541169024270?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
-    setSent(true);
-    setForm(INITIAL);
-    onSelectService('');
+    const href = waHref(message);
+    window.open(href, '_blank', 'noopener');
+    setSentHref(href);
   };
 
   return (
@@ -51,7 +53,7 @@ export default function ContactForm({ selectedService, onSelectService }) {
             <div>
               <label className="block text-sm font-bold mb-2 opacity-80">{t('form_nombre')}</label>
               <input
-                type="text" required placeholder="Ej: Juan Pérez"
+                type="text" required placeholder={t('form_nombre_ph')}
                 value={form.nombre} onChange={update('nombre')}
                 className="w-full p-4 rounded-2xl bg-white/50 dark:bg-black/20 border border-black/10 dark:border-white/10 outline-none focus:border-blue-500 transition-all text-sm"
               />
@@ -59,7 +61,7 @@ export default function ContactForm({ selectedService, onSelectService }) {
             <div>
               <label className="block text-sm font-bold mb-2 opacity-80">{t('form_email')}</label>
               <input
-                type="email" required placeholder="tu@empresa.com"
+                type="email" required placeholder={t('form_email_ph')}
                 value={form.email} onChange={update('email')}
                 className="w-full p-4 rounded-2xl bg-white/50 dark:bg-black/20 border border-black/10 dark:border-white/10 outline-none focus:border-blue-500 transition-all text-sm"
               />
@@ -70,7 +72,7 @@ export default function ContactForm({ selectedService, onSelectService }) {
             <div>
               <label className="block text-sm font-bold mb-2 opacity-80">{t('form_numero')}</label>
               <input
-                type="tel" placeholder="+54 11 1234 5678"
+                type="tel" placeholder={t('form_numero_ph')}
                 value={form.telefono} onChange={update('telefono')}
                 className="w-full p-4 rounded-2xl bg-white/50 dark:bg-black/20 border border-black/10 dark:border-white/10 outline-none focus:border-blue-500 transition-all text-sm"
               />
@@ -80,7 +82,7 @@ export default function ContactForm({ selectedService, onSelectService }) {
           <div>
             <label className="block text-sm font-bold mb-2 opacity-80">{t('form_mensaje')}</label>
             <textarea
-              rows={4} placeholder="Describe brevemente qué necesitas..."
+              rows={4} placeholder={t('form_mensaje_ph')}
               value={form.mensaje} onChange={update('mensaje')}
               className="w-full p-4 rounded-2xl bg-white/50 dark:bg-black/20 border border-black/10 dark:border-white/10 outline-none focus:border-blue-500 transition-all text-sm resize-none"
             />
@@ -96,8 +98,18 @@ export default function ContactForm({ selectedService, onSelectService }) {
             {t('btn_enviar')}
           </button>
 
-          {sent && (
-            <p className="text-center text-sm text-green-600">Tu consulta está lista para enviarse por WhatsApp.</p>
+          {sentHref && (
+            <p className="text-center text-sm opacity-80">
+              {t('form_sent')}{' '}
+              <a
+                href={sentHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-accent underline"
+              >
+                {t('form_sent_link')}
+              </a>
+            </p>
           )}
         </form>
       </div>

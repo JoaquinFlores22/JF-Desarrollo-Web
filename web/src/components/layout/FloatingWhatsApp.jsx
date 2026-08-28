@@ -1,4 +1,5 @@
 import { useLanguage } from '../../context/LanguageContext';
+import { waHref } from '../../lib/contact';
 
 export default function FloatingWhatsApp() {
   const { t } = useLanguage();
@@ -13,7 +14,7 @@ export default function FloatingWhatsApp() {
       </div>
 
       <a
-        href="https://wa.me/541169024270?text=Hola%2C%20Joaqu%C3%ADn.%20Quiero%20consultar%20por%20una%20web%20para%20mi%20negocio."
+        href={waHref('Hola, Joaquín. Quiero consultar por una web para mi negocio.')}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Contactar a Estudio Flores por WhatsApp"

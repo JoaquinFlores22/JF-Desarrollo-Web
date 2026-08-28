@@ -8,7 +8,7 @@ export default function Faq() {
 
   return (
     <section className="max-w-3xl mx-auto py-24 px-6">
-      <h3 className="text-3xl font-black mb-10 text-center">{t('faq_titulo')}</h3>
+      <h2 className="text-3xl font-black mb-10 text-center">{t('faq_titulo')}</h2>
 
       <div className="space-y-4">
         <FaqItem qKey="faq_1_q" aKey="faq_1_a" />
