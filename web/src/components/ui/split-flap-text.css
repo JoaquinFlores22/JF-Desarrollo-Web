@@ -35,6 +35,18 @@
   isolation: isolate;
 }
 
+/* Ficha de espacio (separador de palabras): sin chapa ni costura, solo un
+   hueco -- si no, la linea del medio del ::before se lee como un guion. */
+.split-flap-text__tile--blank {
+  background: none;
+  box-shadow: none;
+}
+
+.split-flap-text__tile--blank::before,
+.split-flap-text__tile--blank::after {
+  display: none;
+}
+
 .split-flap-text__tile::before {
   content: '';
   position: absolute;

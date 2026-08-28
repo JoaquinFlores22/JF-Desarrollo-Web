@@ -149,8 +149,18 @@ const TextType = ({
     onSentenceComplete,
   ]);
 
+  // Con loop=false, al terminar la última frase el cursor seguía parpadeando
+  // para siempre al final del párrafo -- parecía un glitch. Lo ocultamos.
+  const isTypingComplete =
+    !loop &&
+    !isDeleting &&
+    currentTextIndex === textArray.length - 1 &&
+    currentCharIndex >= textArray[currentTextIndex].length;
+
   const shouldHideCursor =
-    hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
+    isTypingComplete ||
+    (hideCursorWhileTyping &&
+      (currentCharIndex < textArray[currentTextIndex].length || isDeleting));
 
   return createElement(
     Component,

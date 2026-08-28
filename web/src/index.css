@@ -22,6 +22,14 @@ body {
   margin: 0;
 }
 
+/* Los <option> nativos abren en un popup con fondo del sistema (blanco en
+   Windows). Si el <select> fuerza `color: white` (ej. la calculadora de
+   presupuesto), las opciones quedan blanco-sobre-blanco e ilegibles. */
+select option {
+  color: #1a1a1a;
+  background-color: #fff;
+}
+
 #root {
   min-height: 100svh;
 }
