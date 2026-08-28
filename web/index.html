@@ -2,22 +2,43 @@
 <html lang="es" class="dark">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // Aplica el tema guardado antes de pintar: el <html> arranca .dark,
+      // asi que sin esto el usuario que eligio modo claro ve un flash oscuro.
+      try {
+        var t = localStorage.getItem('theme');
+        var dark = t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', dark);
+      } catch (e) {}
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Estudio Flores | Sitios Web de Alto Rendimiento para Empresas</title>
     <meta name="description" content="Diseño y desarrollo web profesional que impulsa tus ventas. Creamos sitios rápidos, seguros y optimizados para convertir visitantes en clientes reales." />
+    <link rel="canonical" href="https://desarrollodigital.vercel.app/" />
 
     <meta property="og:title" content="Estudio Flores | Desarrollo Web Profesional" />
     <meta property="og:description" content="Sitios web de alto impacto, diseño técnico impecable y optimización de rendimiento para negocios." />
     <meta property="og:image" content="https://desarrollodigital.vercel.app/img/jk.png" />
     <meta property="og:url" content="https://desarrollodigital.vercel.app/" />
     <meta property="og:type" content="website" />
-    <link rel="canonical" href="https://desarrollodigital.vercel.app/" />
+    <meta property="og:site_name" content="Estudio Flores" />
+    <meta property="og:locale" content="es_AR" />
 
-    <meta name="theme-color" content="#1A1A1A" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Estudio Flores | Desarrollo Web Profesional" />
+    <meta name="twitter:description" content="Sitios web de alto impacto, diseño técnico impecable y optimización de rendimiento para negocios." />
+    <meta name="twitter:image" content="https://desarrollodigital.vercel.app/img/jk.png" />
+
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F1ED" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0F0F0F" />
+
     <script type="application/ld+json">
-      {"@context":"https://schema.org","@type":"ProfessionalService","name":"Estudio Flores","url":"https://desarrollodigital.vercel.app/","email":"joaquinflores2207@gmail.com","sameAs":["https://www.instagram.com/jf_desarrolloweb/","https://github.com/JoaquinFlores22"],"areaServed":"AR","serviceType":"Desarrollo web"}
+      {"@context":"https://schema.org","@type":"ProfessionalService","name":"Estudio Flores","image":"https://desarrollodigital.vercel.app/img/jk.png","url":"https://desarrollodigital.vercel.app/","email":"joaquinflores2207@gmail.com","telephone":"+5491169024270","priceRange":"$$","areaServed":"AR","serviceType":"Diseño y desarrollo web","founder":{"@type":"Person","name":"Joaquín Flores"},"sameAs":["https://www.instagram.com/jf_desarrolloweb/","https://github.com/JoaquinFlores22","https://www.linkedin.com/in/joaquin-flores-846b392ba/"]}
+    </script>
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Cuánto tardaremos en tener mi web lista?","acceptedAnswer":{"@type":"Answer","text":"La rapidez es nuestra prioridad: una web de lanzamiento suele estar activa en 5 a 7 días. Proyectos más grandes toman entre 2 y 4 semanas, con entregas parciales para que siempre veas el progreso."}},{"@type":"Question","name":"¿Cómo se realizan los pagos?","acceptedAnswer":{"@type":"Answer","text":"Para tu seguridad y compromiso mutuo, iniciamos con un anticipo del 50%. El saldo restante se abona una vez que el proyecto esté terminado y a tu total satisfacción."}},{"@type":"Question","name":"¿Por qué necesito el servicio de cuidado continuo?","acceptedAnswer":{"@type":"Answer","text":"Una web es como un local: necesita limpieza y seguridad. Nos encargamos de las copias de seguridad, la velocidad y la protección contra ataques para que nunca pierdas clientes."}}]}
     </script>
   </head>
   <body class="bg-stone-light dark:bg-[#0F0F0F] text-graphite dark:text-white transition-colors duration-500">
