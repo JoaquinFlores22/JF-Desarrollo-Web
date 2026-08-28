@@ -1,0 +1,170 @@
+:root {
+  --void: #0c0c0a;
+  --ink: #17150f;
+  --bone: #ece7dc;
+  --paper: #f5f1e8;
+  --paper-2: #efe9dd;
+  --ember: #c24a2b;
+  --ember-soft: #e0a58f;
+  --olive: #5f6247;
+  --ash: #837c6d;
+  --hair: rgba(12, 12, 10, 0.14);
+  --hair-light: rgba(236, 231, 220, 0.18);
+
+  --max: 1320px;
+  --gutter: clamp(20px, 5vw, 68px);
+
+  --serif: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans: 'Manrope Variable', 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, monospace;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 0.7s;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 420;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--ember);
+  color: var(--paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-optical-sizing: auto;
+  letter-spacing: -0.015em;
+  line-height: 0.98;
+}
+
+.display {
+  font-family: var(--serif);
+  font-weight: 350;
+  font-variation-settings: 'opsz' 144;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  font-size: clamp(3.4rem, 12vw, 11rem);
+}
+
+.display em,
+h1 em,
+h2 em {
+  font-style: italic;
+  font-variation-settings: 'opsz' 144;
+  color: var(--ember);
+}
+
+h2 {
+  font-size: clamp(2.2rem, 5.2vw, 4.6rem);
+  font-variation-settings: 'opsz' 80;
+}
+
+h3 {
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ember);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 26px;
+  height: 1px;
+  background: currentColor;
+}
+
+.lead {
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  line-height: 1.55;
+  color: var(--ash);
+  max-width: 46ch;
+}
+
+.u-serif-italic {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ember);
+}
+
+/* Grano sutil sobre toda la página, como un papel fotográfico. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
