@@ -91,9 +91,10 @@ export default function ContactForm({ selectedService, onSelectService }) {
               className="w-full p-4 rounded-2xl bg-white/50 dark:bg-black/20 border border-black/10 dark:border-white/10 outline-none focus:border-blue-500 transition-all cursor-pointer text-sm"
             >
               <option value="" disabled>{t('btn_seleccionar_pro')}</option>
-              <option value="Landing Page">{t('opt_landing')}</option>
-              <option value="Sitio Multipágina">{t('opt_multipagina')}</option>
-              <option value="Mantenimiento">{t('opt_mantenimiento')}</option>
+              <option value="Esencial">{t('opt_esencial')}</option>
+              <option value="Firma">{t('opt_firma')}</option>
+              <option value="Estudio">{t('opt_estudio')}</option>
+              <option value="Cuidado Continuo">{t('opt_cuidado')}</option>
             </select>
           </div>
 
