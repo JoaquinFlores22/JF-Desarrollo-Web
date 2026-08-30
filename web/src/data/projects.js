@@ -29,8 +29,8 @@ export const projects = [
     catKey: 'proyecto_6_cat',
     accent: '#C1440E',
     mockup: '/proyectos-preview/jcl-preview.svg',
-    href: '/jcl-pantalones/',
-    external: false,
+    href: 'https://joaquinflores22.github.io/jcl/',
+    external: true,
   },
   {
     id: 'dsok',
