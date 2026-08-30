@@ -29,7 +29,7 @@ export const projects = [
     catKey: 'proyecto_6_cat',
     accent: '#C1440E',
     mockup: '/proyectos-preview/jcl-preview.svg',
-    href: 'https://joaquinflores22.github.io/jcl/',
+    href: 'https://desarrollodigital.vercel.app/jcl-pantalones/',
     external: true,
   },
   {
