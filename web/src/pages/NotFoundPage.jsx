@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function NotFoundPage() {
-  usePageMeta({ title: 'Página no encontrada | Estudio Flores', path: '/404' });
+  usePageMeta({ title: 'Página no encontrada | Estudio Flores', path: '/404', noindex: true });
 
   return (
     <main className="max-w-xl mx-auto px-6 pt-40 pb-32 text-center">
