@@ -19,7 +19,7 @@ export const projects = [
     catKey: 'proyecto_7_cat',
     accent: '#16A672',
     mockup: '/proyectos-preview/cambio-preview.svg',
-    href: 'https://joaquinflores22.github.io/cambio/',
+    href: 'https://desarrollodigital.vercel.app/cambio/',
     external: true,
   },
   {
