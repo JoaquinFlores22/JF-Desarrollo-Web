@@ -1,6 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "cleanUrls": true,
   "redirects": [
     { "source": "/proyectos.html", "destination": "/proyectos", "permanent": true },
     { "source": "/casos.html", "destination": "/proyectos", "permanent": true },
@@ -16,6 +15,7 @@
     { "source": "/cambio/monedas", "destination": "/cambio/monedas.html" },
     { "source": "/cambio/alertas", "destination": "/cambio/alertas.html" },
     { "source": "/cambio/como-funciona", "destination": "/cambio/como-funciona.html" },
+    { "source": "/cambio/convertir/:pair", "destination": "/cambio/convertir/:pair.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
