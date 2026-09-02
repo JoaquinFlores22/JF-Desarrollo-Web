@@ -5,21 +5,26 @@ import { waHref } from '../../lib/contact';
 
 export default function BudgetCalculator() {
   const { ref: magneticRef, onMouseMove, onMouseLeave } = useMagneticHover();
-  const [type, setType] = useState('landing');
+  const [type, setType] = useState('esencial');
   const [extra, setExtra] = useState(0);
+  const isEstudio = type === 'estudio';
 
   const { rangeText, waLink } = useMemo(() => {
     const [min, max] = budgetRanges[type];
-    const extraValue = Number(extra);
+    const extraValue = isEstudio ? 0 : Number(extra);
     const format = (n) => `$ ${n.toLocaleString('es-AR')}`;
-    const rangeText = `${format(min + extraValue)} – ${format(max + extraValue)}`;
+    const rangeText = isEstudio
+      ? `Desde ${format(min)}`
+      : `${format(min + extraValue)} – ${format(max + extraValue)}`;
 
     const extraLabel = budgetExtras.find((e) => e.value === extraValue)?.label ?? '';
-    const message = `Hola, Joaquín. Estimé un proyecto de ${budgetTypeLabels[type]} con ${extraLabel}. Quiero conversar el presupuesto.`;
+    const message = isEstudio
+      ? `Hola, Joaquín. Me interesa un ${budgetTypeLabels[type]}. Quiero coordinar una llamada para el presupuesto.`
+      : `Hola, Joaquín. Estimé un proyecto de ${budgetTypeLabels[type]} con ${extraLabel}. Quiero conversar el presupuesto.`;
     const waLink = waHref(message);
 
     return { rangeText, waLink };
-  }, [type, extra]);
+  }, [type, extra, isEstudio]);
 
   return (
     <section id="presupuesto" className="max-w-5xl mx-auto py-24 px-6">
@@ -40,9 +45,9 @@ export default function BudgetCalculator() {
               onChange={(e) => setType(e.target.value)}
               className="mt-2 w-full p-4 rounded-2xl bg-white/10 border border-white/20 text-white"
             >
-              <option value="landing">Landing de lanzamiento</option>
-              <option value="corporate">Sitio corporativo</option>
-              <option value="commerce">Catálogo / e-commerce</option>
+              <option value="esencial">Esencial — landing con firma</option>
+              <option value="firma">Firma — varias páginas</option>
+              <option value="estudio">Estudio — a medida</option>
             </select>
           </label>
 
@@ -51,7 +56,8 @@ export default function BudgetCalculator() {
             <select
               value={extra}
               onChange={(e) => setExtra(Number(e.target.value))}
-              className="mt-2 w-full p-4 rounded-2xl bg-white/10 border border-white/20 text-white"
+              disabled={isEstudio}
+              className="mt-2 w-full p-4 rounded-2xl bg-white/10 border border-white/20 text-white disabled:opacity-40"
             >
               {budgetExtras.map((opt) => (
                 <option value={opt.value} key={opt.value}>{opt.label}</option>
@@ -59,9 +65,9 @@ export default function BudgetCalculator() {
             </select>
           </label>
 
-          <div className="border-t border-white/20 pt-5 flex justify-between items-end">
-            <span className="text-sm text-white/60">Rango orientativo</span>
-            <strong className="text-3xl font-black text-blue-300">{rangeText}</strong>
+          <div className="border-t border-white/20 pt-5 flex flex-wrap justify-between items-end gap-x-4 gap-y-1">
+            <span className="text-sm text-white/60">{isEstudio ? 'Cerrado por proyecto' : 'Rango orientativo'}</span>
+            <strong className="text-2xl md:text-3xl font-black text-blue-300 tabular-nums whitespace-nowrap">{rangeText}</strong>
           </div>
 
           <a

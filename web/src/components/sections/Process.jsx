@@ -23,9 +23,12 @@ export default function Process() {
       </div>
       <div className="grid md:grid-cols-4 gap-5">
         {STEPS.map((step) => (
-          <div className="border-t-2 border-accent pt-5" key={step.n}>
-            <b className="text-accent">{step.n}</b>
-            <h3 className="text-2xl font-black mt-10">{step.title}</h3>
+          <div
+            className="border-t-2 border-accent pt-5 transition-transform duration-300 hover:-translate-y-1"
+            key={step.n}
+          >
+            <b className="block text-3xl font-black text-accent tracking-tighter">{step.n}</b>
+            <h3 className="text-2xl font-black mt-4">{step.title}</h3>
             <p className="text-sm opacity-60 mt-3">{step.desc}</p>
           </div>
         ))}
