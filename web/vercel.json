@@ -6,11 +6,11 @@
     { "source": "/legales.html", "destination": "/legales", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/jcl-pantalones", "destination": "/jcl-pantalones/index.html" },
-    { "source": "/jcl-pantalones/catalogo", "destination": "/jcl-pantalones/catalogo.html" },
-    { "source": "/jcl-pantalones/mayoristas", "destination": "/jcl-pantalones/mayoristas.html" },
-    { "source": "/jcl-pantalones/como-comprar", "destination": "/jcl-pantalones/como-comprar.html" },
-    { "source": "/jcl-pantalones/contacto", "destination": "/jcl-pantalones/contacto.html" },
+    { "source": "/dkos", "destination": "/dkos/index.html" },
+    { "source": "/dkos/catalogo", "destination": "/dkos/catalogo.html" },
+    { "source": "/dkos/mayoristas", "destination": "/dkos/mayoristas.html" },
+    { "source": "/dkos/como-comprar", "destination": "/dkos/como-comprar.html" },
+    { "source": "/dkos/contacto", "destination": "/dkos/contacto.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
@@ -36,7 +36,7 @@
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     },
     {
-      "source": "/jcl-pantalones/_next/static/(.*)",
+      "source": "/dkos/_next/static/(.*)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     }
   ]

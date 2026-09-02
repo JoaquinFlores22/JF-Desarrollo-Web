@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://desarrollodigital.vercel.app/dkos/sitemap.xml
