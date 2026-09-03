@@ -9,7 +9,7 @@ export const projects = [
     catKey: 'proyecto_1_cat',
     accent: '#4A6FA5',
     mockup: '/proyectos-preview/sociedades-preview.svg',
-    href: 'https://www.sociedades360.com.ar',
+    href: 'https://desarrollodigital.vercel.app/sociedades360/',
     external: true,
   },
   {
